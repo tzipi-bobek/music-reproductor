@@ -1,0 +1,40 @@
+{
+  "name": "taylors-version",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/tzipi-bobek/taylor-s-version.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tzipi-bobek/taylor-s-version/issues"
+  },
+  "homepage": "https://github.com/tzipi-bobek/taylor-s-version#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
+    "nunjucks": "^3.2.4",
+    "rsdi": "^3.0.3",
+    "sequelize": "^6.35.2",
+    "sqlite3": "^5.1.6"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.6",
+    "@babel/eslint-parser": "^7.23.3",
+    "eslint": "^8.56.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.0.1",
+    "nodemon": "^3.0.2",
+    "prettier": "3.1.1"
+  }
+}
