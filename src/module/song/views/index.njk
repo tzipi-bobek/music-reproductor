@@ -1,0 +1,85 @@
+{% extends "views/layouts/base.njk" %}
+
+{% block body %}
+  <section class="section">
+    <div class="container">
+      <nav class="level">
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Cantidad de canciones</p>
+            <p class="title">{{ songsLength }}</p>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </section>
+  {% if lastAddedSong %}
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Último cancion agregado</h1>
+          <table class="table">
+            <tbody>
+              <tr>
+                <th>ID</th>
+                <td>{{ lastAddedSong.id }}</td>
+              </tr>
+              <tr>
+                <th>Titulo</th>
+                <td>{{ lastAddedSong.title }}</td>
+              </tr>
+              <tr>
+                <th>Titulo de Album</th>
+                <td>{{ lastAddedSong.albumTitle }}</td>
+              </tr>
+              <tr>
+                <th>Artista</th>
+                <td>{{ lastAddedSong.artist }}</td>
+              </tr>
+              <tr>
+                <th>Artista del Album</th>
+                <td>{{ lastAddedSong.albumArtist }}</td>
+              </tr>
+              <tr>
+                <th>Compositor/a</th>
+                <td>{{ lastAddedSong.compositor }}</td>
+              </tr>
+              <tr>
+                <th>Género</th>
+                <td>{{ lastAddedSong.genre }}</td>
+              </tr>
+              <tr>
+                <th>Letras</th>
+                <td>{{ lastAddedSong.lyrics }}</td>
+              </tr>
+              <tr>
+                <th>Letrista</th>
+                <td>{{ lastAddedSong.lyricist }}</td>
+              </tr>
+              <tr>
+                <th>Numero de Pista</th>
+                <td>$ {{ lastAddedSong.trackNumber }}</td>
+              </tr>
+              <tr>
+                <th>Año</th>
+                <td>$ {{ lastAddedSong.year }}</td>
+              </tr>
+              <tr>
+                <th>Comentario</th>
+                <td>$ {{ lastAddedSong.coment }}</td>
+              </tr>
+              <tr>
+                <th>Creado</th>
+                <td>{{ lastAddedSong.createdAt }}</td>
+              </tr>
+              <tr>
+                <th>Actualizado</th>
+                <td>{{ lastAddedSong.updatedAt }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}

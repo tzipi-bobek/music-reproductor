@@ -1,0 +1,35 @@
+<div class="tile is-parent">
+  <article class="tile is-child notification is-info is-light">
+    <div class="content">
+      <p class="title">Canciones</p>
+      <div class="content">
+          <table class="table align-middle">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Titulo</th>
+                <th>Artista</th>
+                <th>Año</th>
+                <th>Cancion</th>
+                <th>Cover</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for song in songs | reverse %}
+                <tr>
+                  <th>
+                    <a href="{{ "/song/view/" + song.id }}">{{ song.id }}</a>
+                  </th>
+                  <td>{{ song.title }}</td>
+                  <td>{{ song.artist }}</td>
+                  <td>{{ song.year }}</td>
+                  <td>{{ song.audioFile }}</td>
+                  <td>{{ song.cover }}</td>
+                </tr>
+              {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+</div>

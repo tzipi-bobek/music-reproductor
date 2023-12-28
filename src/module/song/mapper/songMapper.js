@@ -4,6 +4,7 @@ exports.fromModelToEntity = (
   {
     id,
     title,
+    albumTitle,
     artist,
     albumArtist,
     compositor,
@@ -26,6 +27,7 @@ exports.fromModelToEntity = (
   new Song(
     Number(id),
     title,
+    albumTitle,
     artist,
     albumArtist,
     compositor,
@@ -47,6 +49,7 @@ exports.fromModelToEntity = (
 exports.fromFormToEntity = ({
   id,
   title,
+  albumTitle,
   artist,
   'album-artist': albumArtist,
   compositor,
@@ -64,6 +67,7 @@ exports.fromFormToEntity = ({
   new Song(
     id,
     title,
+    albumTitle,
     artist,
     albumArtist,
     compositor,

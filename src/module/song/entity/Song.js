@@ -2,6 +2,7 @@ module.exports = class Song {
   /**
    * @param {number} id
    * @param {string} title
+   * @param {string} albumTitle
    * @param {string} artist
    * @param {string} albumArtist
    * @param {string} compositor
@@ -22,6 +23,7 @@ module.exports = class Song {
   constructor(
     id,
     title,
+    albumTitle,
     artist,
     albumArtist,
     compositor,
@@ -41,6 +43,7 @@ module.exports = class Song {
   ) {
     this.id = id;
     this.title = title;
+    this.albumTitle = albumTitle;
     this.artist = artist;
     this.albumArtist = albumArtist;
     this.compositor = compositor;
@@ -60,6 +63,6 @@ module.exports = class Song {
   }
 
   get name() {
-    return `${this.title}`;
+    return `${this.title} by ${this.artist}`;
   }
 };

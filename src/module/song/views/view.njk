@@ -1,0 +1,117 @@
+{% extends "views/layouts/base.njk" %}
+
+{% block body %}
+  <section class="section is-light">
+    <div class="song-data"
+      data-id="{{ song.id }}"
+      data-title="{{ song.title }}"
+      data-artist="{{ song.artist }}"
+      data-year="{{ song.year }}"
+      >
+      <div class="container">
+        <div class="columns">
+          <div class="column">
+            <h1 class="title">
+              {{ song.title }}
+              {{ song.artist }}
+              {{ song.year }}
+            </h1>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th>ID</th>
+                  <td>{{ song.id }}</td>
+                </tr>
+                <tr>
+                  <th>Titulo</th>
+                  <td>{{ song.title }}</td>
+                </tr>
+                <tr>
+                  <th>Artista</th>
+                  <td>{{ song.artist }}</td>
+                </tr>
+                <tr>
+                  <th>Año</th>
+                  <td>{{ song.year }}</td>
+                </tr>
+                <tr>
+                  <th>Artista del Album</th>
+                  <td>{{ song.albumArtist }} albumArtist</td>
+                </tr>
+                <tr>
+                  <th>Compositor/a</th>
+                  <td>{{ song.compositor }}</td>
+                </tr>
+                <tr>
+                  <th>Género</th>
+                  <td>{{ song.genre }}</td>
+                </tr>
+                <tr>
+                  <th>Letras</th>
+                  <td>{{ song.lyrics }}</td>
+                </tr>
+                <tr>
+                  <th>Letrista</th>
+                  <td>{{ song.lyricist }}</td>
+                </tr>
+                <tr>
+                  <th>Número de Pista</th>
+                  <td>$ {{ song.trackNumber }}</td>
+                </tr>
+                <tr>
+                  <th>Creado</th>
+                  <td>{{ song.createdAt }}</td>
+                </tr>
+                <tr>
+                  <th>Modificado</th>
+                  <td>{{ song.updatedAt }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="buttons">
+              <a class="button is-link is-outlined" href="{{ '/song/edit/' + song.id }}">
+                <span>Editar</span>
+                <span class="icon is-small">
+                  <i class="fas fa-edit"></i>
+                </span>
+              </a>
+              <button class="button is-danger is-outlined delete-button">
+                <span>Borrar</span>
+                <span class="icon is-small">
+                  <i class="fas fa-times"></i>
+                </span>
+              </button>
+            </div>
+          </div>
+          <div class="column">
+            <div class="tile is-parent">
+              <article class="tile is-child notification is-info is-light">
+                <div class="content">
+                  <div class="content">
+                    <audio data-role="audio-player" data-src="{{ song.audioFile if song.audioFile }}" alt="song-audio"></audio>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div class="column">
+            <div class="tile is-parent">
+              <article class="tile is-child notification is-info is-light">
+                <div class="content">
+                  <div class="content">
+                    <img src="{{ song.cover if song.cover else '/img/no-cover-available.avif' }}" alt="song-cover">
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include "song/views/layouts/delete-modal.njk" %}
+  </section>
+{% endblock %}
+
+{% block footerScripts %}
+  <script type="text/javascript" src="/js/toggle-delete-modal.js"></script>
+{% endblock %}

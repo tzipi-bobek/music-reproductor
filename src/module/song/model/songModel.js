@@ -17,6 +17,11 @@ class SongModel extends Model {
           type: DataTypes.TEXT,
           allowNull: false,
         },
+        albumTitle: {
+          type: DataTypes.TEXT,
+          allowNull: false,
+          defaultValue: 'unknown',
+        },
         artist: {
           type: DataTypes.TEXT,
           defaultValue: 'unknown',
@@ -24,14 +29,17 @@ class SongModel extends Model {
         },
         albumArtist: {
           type: DataTypes.TEXT,
+          allowNull: false,
           defaultValue: 'unknown',
         },
         compositor: {
           type: DataTypes.TEXT,
+          allowNull: false,
           defaultValue: 'unknown',
         },
         genre: {
           type: DataTypes.TEXT,
+          allowNull: false,
           defaultValue: 'unknown',
         },
         lyrics: {
@@ -39,19 +47,21 @@ class SongModel extends Model {
         },
         lyricist: {
           type: DataTypes.TEXT,
+          allowNull: false,
           defaultValue: 'unknown',
         },
         trackNumber: {
           type: DataTypes.INTEGER,
+          allowNull: false,
           defaultValue: 1,
         },
         year: {
           type: DataTypes.INTEGER,
+          allowNull: false,
           defaultValue: 0,
         },
         comment: {
           type: DataTypes.TEXT,
-          defaultValue: 'unknown',
         },
         audioFile: {
           type: DataTypes.INTEGER,
@@ -76,8 +86,9 @@ class SongModel extends Model {
    * @param {typeof import('../../album/model/albumModel')} AlbumModel
    */
   static setupAssociations(AlbumModel) {
-    SongModel.belongsTo(AlbumModel, { foreignKey: 'albumID', constraints: true });
-    AlbumModel.hasMany(SongModel, { foreignKey: 'albumID', constraints: false });
+    AlbumModel.hasMany(SongModel, { foreignKey: 'albumId', constraints: false });
+    SongModel.belongsTo(AlbumModel, { foreignKey: 'albumId', constraints: false });
+
     return SongModel;
   }
 }

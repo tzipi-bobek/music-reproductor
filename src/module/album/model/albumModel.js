@@ -16,6 +16,18 @@ class AlbumModel extends Model {
         title: {
           type: DataTypes.TEXT,
           allowNull: false,
+          references: {
+            model: 'SongModel',
+            key: 'albumTitle',
+          },
+        },
+        artist: {
+          type: DataTypes.TEXT,
+          allowNull: false,
+          references: {
+            model: 'SongModel',
+            key: 'albumArtist',
+          },
         },
         songsNumber: {
           type: DataTypes.INTEGER,
@@ -23,6 +35,18 @@ class AlbumModel extends Model {
         },
         cover: {
           type: DataTypes.INTEGER,
+          references: {
+            model: 'SongModel',
+            key: 'cover',
+          },
+        },
+        year: {
+          type: DataTypes.INTEGER,
+          allowNull: false,
+          references: {
+            model: 'SongModel',
+            key: 'year',
+          },
         },
       },
       {
@@ -32,11 +56,6 @@ class AlbumModel extends Model {
         timestamps: true,
       },
     );
-    return AlbumModel;
-  }
-
-  static setupAssociations(SongModel) {
-    AlbumModel.hasOne(SongModel.artist, { foreignKey: 'artistFk', constraints: true });
     return AlbumModel;
   }
 }

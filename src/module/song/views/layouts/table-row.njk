@@ -1,0 +1,36 @@
+<tr class="song-data"
+data-id="{{ song.id }}"
+data-title="{{ song.title }}"
+data-artist="{{ song.artist }}"
+data-year="{{ song.year }}"
+>
+  <th>{{ song.id }}</th>
+  <td>{{ song.title }}</td>
+  <td>{{ song.albumTitle }}</td>
+  <td>{{ song.artist }}</td>
+  <td>{{ song.albumArtist }}</td>
+  <td>{{ song.compositor }}</td>
+  <td>{{ song.genre }}</td>
+  <td>{{ song.lyrics }}</td>
+  <td>{{ song.lyricist }}</td>
+  <td>{{ song.trackNumber }}</td>
+  <td>{{ song.year }}</td>
+  <td>{{ song.comment }}</td>
+  <td>
+    <a class="button" href="{{"/song/view/" + song.id}}">
+      <span class="icon">
+        <i class="fas fa-search has-text-black"></i>
+      </span>
+    </a>
+    <a class="button" href="{{"/song/edit/" + song.id}}">
+      <span class="icon">
+        <i class="fas fa-edit has-text-black"></i>
+      </span>
+    </a>
+    <button class="button delete-button">
+      <span class="icon">
+        <i class="fas fa-trash"></i>
+      </span>
+    </button>
+  </td>
+</tr>

@@ -1,0 +1,34 @@
+<tr class="album-data"
+data-id="{{ album.id }}"
+data-title="{{ album.title }}"
+data-cover="{{ album.cover }}"
+data-year="{{ album.year }}"
+>
+  <th>{{ album.id }}</th>
+  <td>{{ album.brand }}</td>
+  <td>{{ album.model }}</td>
+  <td>{{ album.year }}</td>
+  <td>{{ album.kms }}</td>
+  <td>{{ album.color }}</td>
+  <td>{{ album.ac }}</td>
+  <td>{{ album.passengers }}</td>
+  <td>{{ album.transmission }}</td>
+  <td>{{ album.price }}</td>
+  <td>
+    <a class="button" href="{{"/album/view/" + album.id}}">
+      <span class="icon">
+        <i class="fas fa-search has-text-black"></i>
+      </span>
+    </a>
+    <a class="button" href="{{"/album/edit/" + album.id}}">
+      <span class="icon">
+        <i class="fas fa-edit has-text-black"></i>
+      </span>
+    </a>
+    <button class="button delete-button">
+      <span class="icon">
+        <i class="fas fa-trash"></i>
+      </span>
+    </button>
+  </td>
+</tr>

@@ -1,0 +1,37 @@
+{% extends "views/layouts/base.njk" %}
+
+{% block body %}
+  <section class="section">
+    <div class="container">
+      <nav class="level">
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Cantidad de canciones</p>
+            <p class="title">{{ albumsLength }}</p>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </section>
+  {% if lastAddedSong %}
+    <section class="hero">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">Último album agregado</h1>
+          <table class="table">
+            <div class="card">
+              <div class="card-image">
+                <figure class="image is-4by3">
+                  <img src="{{ album.cover }}" alt="{{ album.title }}">
+                </figure>
+              </div>
+              <div class="card-content">
+                <p class="title is-4">{{ album.title }}</p>
+              </div>
+            </div>
+          </table>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}

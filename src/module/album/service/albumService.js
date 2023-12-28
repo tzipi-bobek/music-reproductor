@@ -13,12 +13,8 @@ module.exports = class AlbumService {
   /**
    * @param {import('../entity/Album')} album
    */
-  async save(album) {
-    if (!(album instanceof Album)) {
-      throw new AlbumNotDefinedError();
-    }
-
-    return this.albumRepository.save(album);
+  async save(song) {
+    return this.albumRepository.save(song);
   }
 
   async getAll() {
@@ -46,13 +42,23 @@ module.exports = class AlbumService {
   }
 
   /**
+   * @param {number} albumId
+   * @returns {Promise<Album>}
+   */
+  async getAlbumIfExist(albumId) {
+    return this.albumRepository.getAlbumIfExist(albumId);
+  }
+
+  /**
    * @param {import('../entity/Album')} album
    */
   async delete(album) {
     if (!(album instanceof Album)) {
       throw new AlbumNotDefinedError();
     }
-
-    return this.albumRepository.delete(album);
+    if (album.songs.length === 0) {
+      return this.albumRepository.delete(album);
+    }
+    return this;
   }
 };

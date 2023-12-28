@@ -4,9 +4,11 @@ const SongIdNotDefinedError = require('../error/SongIdNotDefinedError');
 module.exports = class SongController {
   /**
    * @param {import('../service/songService')} songService
+   * @param {import('../../album/service/albumService')} albumService
    */
-  constructor(songService, uploadMiddleware) {
+  constructor(songService, albumService, uploadMiddleware) {
     this.songService = songService;
+    this.albumService = albumService;
     this.uploadMiddleware = uploadMiddleware;
     this.ROUTE_BASE = '/song';
     this.SONG_VIEWS = 'song/views';
@@ -22,7 +24,14 @@ module.exports = class SongController {
     app.get(`${ROUTE}/view/:songId`, this.view.bind(this));
     app.get(`${ROUTE}/edit/:songId`, this.edit.bind(this));
     app.get(`${ROUTE}/add`, this.add.bind(this));
-    app.post(`${ROUTE}/save`, this.uploadMiddleware.single('cover'), this.save.bind(this));
+    app.post(
+      `${ROUTE}/save`,
+      this.uploadMiddleware.fields([
+        { name: 'song-cover', maxCount: 1 },
+        { name: 'song-audio', maxCount: 1 },
+      ]),
+      this.save.bind(this),
+    );
     app.post(`${ROUTE}/delete/:songId`, this.delete.bind(this));
   }
 
@@ -112,12 +121,27 @@ module.exports = class SongController {
    * @param {import('express').Response} res
    */
   async save(req, res) {
+    const formData = { ...req.body };
+    const { 'album-id': albumId } = formData;
+    const album = await this.albumService.getAlbumIfExist(albumId);
+
     const song = fromFormToEntity(req.body);
-    if (req.file) {
-      const path = req.file.path.split('public')[1];
-      song.img = path;
+    if (req.files['song-cover']) {
+      const coverPath = req.files['song-cover'][0].path.split('public')[1];
+      song.cover = coverPath;
     }
-    await this.songService.save(song);
+    if (req.files['song-audio']) {
+      const audioPath = req.files['song-audio'][0].path.split('public')[1];
+      song.audioFile = audioPath;
+    }
+
+    const songModel = await this.songService.save(song);
+
+    if (!album) {
+      await this.albumService.save(songModel);
+    } else {
+      formData.album = await this.albumService.getById(albumId);
+    }
     res.redirect(this.ROUTE_BASE);
   }
 

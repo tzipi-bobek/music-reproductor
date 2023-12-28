@@ -4,29 +4,32 @@ const Album = require('../entity/Album');
 exports.fromModelToEntity = ({
   id,
   title,
+  artist,
   songsNumber,
   cover,
+  year,
   createdAt = null,
   updatedAt = null,
-  artistFk,
   Songs = [],
 }) =>
   new Album(
     Number(id),
-    title,
+    title ? songModelToEntityMapper(title) : title,
+    artist ? songModelToEntityMapper(artist) : artist,
     Number(songsNumber),
-    cover,
+    cover ? songModelToEntityMapper(cover) : cover,
+    Number(year),
     createdAt,
     updatedAt,
-    artistFk,
     Songs.map(songModelToEntityMapper),
   );
 
 exports.fromFormToEntity = ({
   id,
   title,
+  artist,
   'songs-number': songsNumber,
   cover,
+  year,
   'created-at': createdAt,
-  'artist-fk': artistFk,
-}) => new Album(id, title, songsNumber, cover, createdAt, artistFk);
+}) => new Album(id, title, artist, songsNumber, cover, year, createdAt);

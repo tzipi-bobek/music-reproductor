@@ -1,0 +1,25 @@
+{% extends "views/layouts/base.njk" %}
+
+{% block stylesheets %}
+  <link rel="stylesheet" href="/css/manage.css">
+{% endblock %}
+
+{% block body %}
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Hay {{ albums.length }} canciones.</h1>
+      <table class="table align-middle">
+        <tbody>
+          {% for album in albums %}
+            {% include "album/views/layouts/table-row.njk" %}
+          {% endfor %}
+        </tbody>
+      </table>
+      {% include "album/views/layouts/delete-modal.njk" %}
+    </div>
+  </section>
+{% endblock %}
+
+{% block footerScripts %}
+  <script type="text/javascript" src="/js/toggle-delete-modal.js"></script>
+{% endblock %}

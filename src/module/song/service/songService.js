@@ -17,7 +17,6 @@ module.exports = class SongService {
     if (!(song instanceof Song)) {
       throw new SongNotDefinedError();
     }
-
     return this.songRepository.save(song);
   }
 

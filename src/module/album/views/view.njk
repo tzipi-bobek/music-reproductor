@@ -1,0 +1,51 @@
+{% extends "views/layouts/base.njk" %}
+
+{% block body %}
+{% for album in albums | reverse %}
+<div class="card">
+  <div class="card-image">
+    <figure class="image is-square">
+      <img src="{{ album.cover if album.cover else '/img/no-cover-available.avif' }}" alt="album-cover">
+    </figure>
+  </div>
+  <div class="card-content">
+    <div class="media">>
+      <div class="media-content">
+        <p class="title is-4">{{ album.title }}</p>
+        <p class="subtitle is-6">{{ album.artist }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+  <section class="section is-light">
+    <div class="album-data"
+      data-id="{{ album.id }}"
+      data-brand="{{ album.brand }}"
+      data-model="{{ album.model }}"
+      data-year="{{ album.year }}"
+      >
+      <div class="container">
+        <div class="columns">
+          <div class="column">
+            <h1 class="title">
+              {{ album.brand }}
+              {{ album.model }}
+              {{ album.year }}
+            </h1>
+          </div>
+          <div class="column">
+            {% include "album/views/layouts/songs-table.njk" %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% include "album/views/layouts/delete-modal.njk" %}
+  </section>
+{% endblock %}
+
+{% block footerScripts %}
+  <script type="text/javascript" src="/js/toggle-delete-modal.js"></script>
+{% endblock %}

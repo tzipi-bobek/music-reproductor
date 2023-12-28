@@ -16,16 +16,28 @@ module.exports = class AlbumRepository {
   /**
    * @param {import('../entity/Album')} album
    */
-  async save(album) {
-    if (!(album instanceof Album)) {
-      throw new AlbumNotDefinedError();
-    }
-
-    const albumInstance = this.albumModel.build(album, {
-      isNewRecord: !album.id,
-    });
+  async save(song) {
+    const albumInstance = this.albumModel.build(
+      song.albumTitle,
+      song.albumArtist,
+      1,
+      song.cover,
+      song.year,
+    );
     await albumInstance.save();
     return fromModelToEntity(albumInstance);
+  }
+
+  /**
+   * @param {number} albumId
+   * @returns {Promise<import('../entity/Album')>}
+   */
+  async getAlbumIfExist(albumId) {
+    const albumInstance = await this.albumModel.findByPk(albumId, { include: SongModel });
+    if (albumInstance) {
+      return true;
+    }
+    return false;
   }
 
   async getAll() {
@@ -35,6 +47,10 @@ module.exports = class AlbumRepository {
 
   async getAlbumsLength() {
     return this.albumModel.count();
+  }
+
+  async getSongsLength() {
+    return this.albumModel.songs.count();
   }
 
   async getLastAlbum() {
@@ -53,7 +69,10 @@ module.exports = class AlbumRepository {
       throw new AlbumIdNotDefinedError();
     }
 
-    const albumInstance = await this.albumModel.findByPk(albumId, { include: SongModel });
+    const albumInstance = await this.albumModel.findByPk(albumId, {
+      include: SongModel,
+      paranoid: false,
+    });
     if (!albumInstance) {
       throw new AlbumNotFoundError(`No existe el album con ID ${albumId}`);
     }
