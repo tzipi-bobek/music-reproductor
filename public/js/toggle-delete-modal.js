@@ -13,9 +13,9 @@ function fillModal(evt) {
   const $modalContent = $modal.querySelector('.modal-content');
   const $modalForm = $modal.querySelector('.modal-form');
   const song = evt.target.closest('.song-data');
-  const { id, title, artist, year } = song.dataset;
+  const { id, title, artist } = song.dataset;
 
-  $modalContent.textContent = `Está seguro de eliminar la cancion ${title} by ${artist} ${year} con ID ${id}?`;
+  $modalContent.textContent = `Está seguro de eliminar la cancion ${title} by ${artist} con ID ${id}?`;
   $modalForm.action = `/song/delete/${id}`;
 }
 

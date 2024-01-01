@@ -1,4 +1,5 @@
 const { fromModelToEntity } = require('../mapper/songMapper');
+const { fromModelToEntity: fromAlbumModelToEntity } = require('../../album/mapper/albumMapper');
 const Song = require('../entity/Song');
 const SongNotDefinedError = require('../error/SongNotDefinedError');
 const SongIdNotDefinedError = require('../error/SongIdNotDefinedError');
@@ -24,12 +25,14 @@ module.exports = class SongRepository {
       isNewRecord: !song.id,
     });
     await songInstance.save();
-    return fromModelToEntity(songInstance);
+    return fromModelToEntity(songInstance, fromAlbumModelToEntity);
   }
 
   async getAll() {
     const songInstances = await this.songModel.findAll();
-    return songInstances.map((songInstance) => fromModelToEntity(songInstance));
+    return songInstances.map((songInstance) =>
+      fromModelToEntity(songInstance, fromAlbumModelToEntity),
+    );
   }
 
   async getSongsLength() {
@@ -40,7 +43,7 @@ module.exports = class SongRepository {
     const songInstance = await this.songModel.findOne({
       order: [['id', 'DESC']],
     });
-    return fromModelToEntity(songInstance);
+    return fromModelToEntity(songInstance, fromAlbumModelToEntity);
   }
 
   /**
@@ -59,7 +62,7 @@ module.exports = class SongRepository {
       );
     }
 
-    return fromModelToEntity(songInstance);
+    return fromModelToEntity(songInstance, fromAlbumModelToEntity);
   }
 
   /**

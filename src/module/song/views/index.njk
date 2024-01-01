@@ -17,7 +17,7 @@
     <section class="hero">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">Último cancion agregado</h1>
+          <h1 class="title">Última cancion agregada</h1>
           <table class="table">
             <tbody>
               <tr>
@@ -28,6 +28,13 @@
                 <th>Titulo</th>
                 <td>{{ lastAddedSong.title }}</td>
               </tr>
+              <tr>
+                <th>Cancion</th>
+                <td>
+                  <audio controls data-role="audio-player" data-src="{{ song.audioFile if song.audioFile }}" alt="song-audio">
+                    <source src="{{ lastAddedSong.audioFile }}">
+                  </audio>
+                </td>
               <tr>
                 <th>Titulo de Album</th>
                 <td>{{ lastAddedSong.albumTitle }}</td>
@@ -58,15 +65,15 @@
               </tr>
               <tr>
                 <th>Numero de Pista</th>
-                <td>$ {{ lastAddedSong.trackNumber }}</td>
+                <td>{{ lastAddedSong.trackNumber }}</td>
               </tr>
               <tr>
                 <th>Año</th>
-                <td>$ {{ lastAddedSong.year }}</td>
+                <td>{{ lastAddedSong.year }}</td>
               </tr>
               <tr>
                 <th>Comentario</th>
-                <td>$ {{ lastAddedSong.coment }}</td>
+                <td>{{ lastAddedSong.coment }}</td>
               </tr>
               <tr>
                 <th>Creado</th>

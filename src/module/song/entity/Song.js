@@ -14,7 +14,6 @@ module.exports = class Song {
    * @param {string} comment
    * @param {string} audioFile
    * @param {string} cover
-   * @param {number} albumID
    * @param {string} createdAt
    * @param {string} updatedAt
    * @param {string} deletedAt
@@ -35,7 +34,6 @@ module.exports = class Song {
     comment,
     audioFile,
     cover,
-    albumID,
     createdAt,
     updatedAt,
     deletedAt,
@@ -55,7 +53,6 @@ module.exports = class Song {
     this.comment = comment;
     this.audioFile = audioFile;
     this.cover = cover;
-    this.albumID = albumID;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.deletedAt = deletedAt;

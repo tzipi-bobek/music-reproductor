@@ -14,22 +14,12 @@ exports.fromModelToEntity = ({
 }) =>
   new Album(
     Number(id),
-    title ? songModelToEntityMapper(title) : title,
-    artist ? songModelToEntityMapper(artist) : artist,
+    title,
+    artist,
     Number(songsNumber),
-    cover ? songModelToEntityMapper(cover) : cover,
+    cover,
     Number(year),
     createdAt,
     updatedAt,
     Songs.map(songModelToEntityMapper),
   );
-
-exports.fromFormToEntity = ({
-  id,
-  title,
-  artist,
-  'songs-number': songsNumber,
-  cover,
-  year,
-  'created-at': createdAt,
-}) => new Album(id, title, artist, songsNumber, cover, year, createdAt);

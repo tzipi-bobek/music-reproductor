@@ -16,7 +16,6 @@ exports.fromModelToEntity = (
     comment,
     audioFile,
     cover,
-    albumID,
     createdAt = null,
     updatedAt = null,
     deletedAt = null,
@@ -39,7 +38,6 @@ exports.fromModelToEntity = (
     comment,
     audioFile,
     cover,
-    Number(albumID),
     createdAt,
     updatedAt,
     deletedAt,
@@ -49,7 +47,7 @@ exports.fromModelToEntity = (
 exports.fromFormToEntity = ({
   id,
   title,
-  albumTitle,
+  'album-title': albumTitle,
   artist,
   'album-artist': albumArtist,
   compositor,
@@ -61,7 +59,6 @@ exports.fromFormToEntity = ({
   comment,
   'audio-file': audioFile,
   cover,
-  'album-id': albumID,
   'created-at': createdAt,
 }) =>
   new Song(
@@ -79,6 +76,5 @@ exports.fromFormToEntity = ({
     comment,
     audioFile,
     cover,
-    albumID,
     createdAt,
   );

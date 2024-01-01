@@ -1,3 +1,7 @@
+{% block stylesheets %}
+  <link rel="stylesheet" href="/css/img.css">
+{% endblock %}
+
 {% extends "views/layouts/base.njk" %}
 
 {% block body %}
@@ -36,7 +40,7 @@
                 </tr>
                 <tr>
                   <th>Artista del Album</th>
-                  <td>{{ song.albumArtist }} albumArtist</td>
+                  <td>{{ song.albumArtist }}</td>
                 </tr>
                 <tr>
                   <th>Compositor/a</th>
@@ -56,7 +60,7 @@
                 </tr>
                 <tr>
                   <th>Número de Pista</th>
-                  <td>$ {{ song.trackNumber }}</td>
+                  <td>{{ song.trackNumber }}</td>
                 </tr>
                 <tr>
                   <th>Creado</th>
@@ -88,13 +92,13 @@
               <article class="tile is-child notification is-info is-light">
                 <div class="content">
                   <div class="content">
-                    <audio data-role="audio-player" data-src="{{ song.audioFile if song.audioFile }}" alt="song-audio"></audio>
+                    <audio controls data-role="audio-player" data-src="{{ song.audioFile if song.audioFile }}" alt="song-audio">
+                      <source src="{{ song.audioFile if song.audioFile }}">
+                    </audio>
                   </div>
                 </div>
               </article>
             </div>
-          </div>
-          <div class="column">
             <div class="tile is-parent">
               <article class="tile is-child notification is-info is-light">
                 <div class="content">

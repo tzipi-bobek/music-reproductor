@@ -11,10 +11,17 @@ module.exports = class AlbumService {
   }
 
   /**
-   * @param {import('../entity/Album')} album
+   * @param {import('../../song/entity/Song')} song
    */
-  async save(song) {
-    return this.albumRepository.save(song);
+  async save(album) {
+    return this.albumRepository.save(album);
+  }
+
+  /**
+   * @param {import('../../song/entity/Song')} song
+   */
+  async create(song) {
+    return this.albumRepository.create(song);
   }
 
   async getAll() {
@@ -45,8 +52,8 @@ module.exports = class AlbumService {
    * @param {number} albumId
    * @returns {Promise<Album>}
    */
-  async getAlbumIfExist(albumId) {
-    return this.albumRepository.getAlbumIfExist(albumId);
+  async getAlbumIfExistByTitle(albumTitle) {
+    return this.albumRepository.getAlbumIfExistByTitle(albumTitle);
   }
 
   /**

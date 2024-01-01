@@ -101,6 +101,7 @@ module.exports = class SongController {
 
     const song = await this.songService.getById(songId);
     res.render(`${this.SONG_VIEWS}/edit.njk`, {
+      noEsPaginaDeEdicion: false,
       title: `Editing ${song.title} #${song.id}`,
       song,
     });
@@ -112,6 +113,7 @@ module.exports = class SongController {
    */
   add(req, res) {
     res.render(`${this.SONG_VIEWS}/add.njk`, {
+      noEsPaginaDeEdicion: true,
       title: 'Add New Song',
     });
   }
@@ -119,13 +121,13 @@ module.exports = class SongController {
   /**
    * @param {import('express').Request} req
    * @param {import('express').Response} res
+   * @param {import('../../album/entity/Album')} album
    */
   async save(req, res) {
-    const formData = { ...req.body };
-    const { 'album-id': albumId } = formData;
-    const album = await this.albumService.getAlbumIfExist(albumId);
-
     const song = fromFormToEntity(req.body);
+    const { albumTitle } = song;
+    const album = await this.albumService.getAlbumIfExistByTitle(albumTitle);
+
     if (req.files['song-cover']) {
       const coverPath = req.files['song-cover'][0].path.split('public')[1];
       song.cover = coverPath;
@@ -135,13 +137,14 @@ module.exports = class SongController {
       song.audioFile = audioPath;
     }
 
-    const songModel = await this.songService.save(song);
+    await this.songService.save(song);
 
-    if (!album) {
-      await this.albumService.save(songModel);
+    if (album) {
+      await this.albumService.save(album);
     } else {
-      formData.album = await this.albumService.getById(albumId);
+      await this.albumService.create(song);
     }
+
     res.redirect(this.ROUTE_BASE);
   }
 

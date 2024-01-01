@@ -18,35 +18,35 @@
             <div class="field">
                 <label class="label">Album Titulo</label>
                 <div class="control">
-                    <input class="input" type="text" name="albumTitle" 
+                    <input required class="input" type="text" name="album-title" 
                            value="{{ song.albumTitle if song }}">
                 </div>
             </div>
             <div class="field">
                 <label class="label">Artista</label>
                 <div class="control">
-                    <input class="input" type="text" name="artist" placeholder="Taylor Swift"
+                    <input required class="input" type="text" name="artist" placeholder="Taylor Swift"
                            value="{{ song.artist if song }}">
                 </div>
             </div>
             <div class="field">
                 <label class="label">Artista del Album</label>
                 <div class="control">
-                    <input class="input" type="text" name="albumArtist" placeholder="Taylor Swift"
+                    <input required class="input" type="text" name="album-artist" placeholder="Taylor Swift"
                            value="{{ song.albumArtist if song }}">
                 </div>
             </div>
             <div class="field">
                 <label class="label">Compositor/a</label>
                 <div class="control">
-                    <input class="input" type="text" name="compositor" placeholder="Taylor Swift"
+                    <input required class="input" type="text" name="compositor" placeholder="Taylor Swift"
                            value="{{ song.compositor if song }}">
                 </div>
             </div>
             <div class="field">
                 <label class="label">Género</label>
                 <div class="control">
-                    <input class="input" type="text" name="genre" 
+                    <input required class="input" type="text" name="genre" 
                            value="{{ song.genre if song }}">
                 </div>
             </div>
@@ -54,27 +54,27 @@
                 <label class="label">Letras</label>
               <div class="control">
                 <textarea class="textarea" name="lyrics"
-                        value="{{ song.lyrics if song }}"></textarea>
+                        value="{{ song.lyrics if song }}">{{ song.lyrics }}</textarea>
               </div>
             </div>
            <div class="field">
                 <label class="label">Letrista</label>
                 <div class="control">
-                    <input class="input" type="text" name="lyricist" placeholder="Taylor Swift"
+                    <input required class="input" type="text" name="lyricist" placeholder="Taylor Swift"
                            value="{{ song.lyricist if song }}">
                 </div>
             </div>
             <div class="field">
                 <label class="label">Número De Pista</label>
                 <div class="control">
-                    <input class="input" type="number" min="0" name="trackNumber" 
+                    <input required class="input" type="number" min="0" name="track-number" 
                             value="{{ song.trackNumber if song }}">
                 </div>
             </div>
             <div class="field">
                 <label class="label">Año</label>
                 <div class="control">
-                    <input class="input" type="number" min="0" name="year" 
+                    <input required class="input" type="number" min="0" name="year" 
                             value="{{ song.year if song }}">
                 </div>
             </div>
@@ -82,7 +82,7 @@
                 <label class="label">Comentario</label>
               <div class="control">
                 <textarea class="textarea" name="comment"
-                        value="{{ song.comment if song }}"></textarea>
+                        value="{{ song.comment if song }}">{{ song.comment }}</textarea>
               </div>
             </div>
             <div class="field is-grouped">
@@ -95,20 +95,24 @@
             </div>
         </div>
         <div class="column">
+            {% if noEsPaginaDeEdicion %}
             <input type="hidden" name="audioFile" value="{{ song.audioFile }}">
             <div class="field">
                 <label class="label">Cancion</label>
-                <audio src="{{ song.audioFile if song.audioFile }}" alt="song-audio"></audio>
+                <audio id="audio-player" controls data-role="audio-player" alt="song-audio">
+                  <source src="{{ song.audioFile if song.audioFile }}">
+                </audio>
                 <div class="control">
-                    <input required class="input" type="file" name="song-audio">
+                  <input id="audio-input" required class="input" type="file" name="song-audio">
                 </div>
             </div>
+            {% endif %}
             <input type="hidden" name="cover" value="{{ song.cover }}">
             <div class="field">
                 <label class="label">Cover</label>
-                <img src="{{ song.cover if song.cover else '/img/no-cover-available.avif' }}" alt="song-cover">
+                <img id="cover-preview" src="{{ song.cover if song.cover else '/img/no-cover-available.avif' }}" alt="song-cover">
                 <div class="control">
-                    <input class="input" type="file" name="song-cover">
+                  <input id="cover-input" class="input" type="file" name="song-cover">
                 </div>
             </div>
         </div>

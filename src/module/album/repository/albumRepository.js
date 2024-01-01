@@ -14,16 +14,27 @@ module.exports = class AlbumRepository {
   }
 
   /**
-   * @param {import('../entity/Album')} album
+   * @param {import('../../song/entity/Song')} song
    */
-  async save(song) {
-    const albumInstance = this.albumModel.build(
-      song.albumTitle,
-      song.albumArtist,
-      1,
-      song.cover,
-      song.year,
-    );
+  async create(song) {
+    const albumInstance = this.albumModel.build({
+      title: song.albumTitle,
+      artist: song.albumArtist,
+      songsNumber: 1,
+      cover: song.cover,
+      year: song.year,
+    });
+    await albumInstance.save();
+    return fromModelToEntity(albumInstance, song);
+  }
+
+  /**
+   * @param {import('../../album/entity/Album')} album
+   */
+  // eslint-disable-next-line class-methods-use-this
+  async save(album) {
+    const albumInstance = album;
+    albumInstance.songsNumber += 1;
     await albumInstance.save();
     return fromModelToEntity(albumInstance);
   }
@@ -32,10 +43,10 @@ module.exports = class AlbumRepository {
    * @param {number} albumId
    * @returns {Promise<import('../entity/Album')>}
    */
-  async getAlbumIfExist(albumId) {
-    const albumInstance = await this.albumModel.findByPk(albumId, { include: SongModel });
+  async getAlbumIfExistByTitle(albumTitle) {
+    const albumInstance = await this.albumModel.findByPk(albumTitle);
     if (albumInstance) {
-      return true;
+      return albumInstance.id;
     }
     return false;
   }
