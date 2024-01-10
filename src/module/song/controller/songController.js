@@ -126,7 +126,7 @@ module.exports = class SongController {
   async save(req, res) {
     const song = fromFormToEntity(req.body);
     const { albumTitle } = song;
-    const album = await this.albumService.getAlbumIfExistByTitle(albumTitle);
+    let album = await this.albumService.getAlbumIfExistByTitle(albumTitle);
 
     if (req.files['song-cover']) {
       const coverPath = req.files['song-cover'][0].path.split('public')[1];
@@ -137,14 +137,17 @@ module.exports = class SongController {
       song.audioFile = audioPath;
     }
 
-    await this.songService.save(song);
-
     if (album) {
-      await this.albumService.save(album);
+      if (!song.id) {
+        album.songsNumber += 1;
+      }
+      await this.albumService.save(album, song);
     } else {
-      await this.albumService.create(song);
+      album = await this.albumService.create(song);
     }
 
+    song.album = await this.albumService.getById(album.id);
+    await this.songService.save(song, album.id);
     res.redirect(this.ROUTE_BASE);
   }
 

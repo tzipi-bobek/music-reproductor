@@ -23,30 +23,33 @@ module.exports = class AlbumRepository {
       songsNumber: 1,
       cover: song.cover,
       year: song.year,
+      include: SongModel,
     });
     await albumInstance.save();
     return fromModelToEntity(albumInstance, song);
   }
 
   /**
-   * @param {import('../../album/entity/Album')} album
+   * @param {import('../entity/Album')} album
+   * @param {import('../../song/entity/Song')} song
    */
   // eslint-disable-next-line class-methods-use-this
-  async save(album) {
-    const albumInstance = album;
-    albumInstance.songsNumber += 1;
-    await albumInstance.save();
-    return fromModelToEntity(albumInstance);
+  async save(album, song) {
+    await this.albumModel.update({ songsNumber: album.songsNumber }, { where: { id: album.id } });
+    const updatedAlbum = await this.albumModel.findByPk(album.id);
+    return fromModelToEntity(updatedAlbum, song);
   }
 
   /**
-   * @param {number} albumId
+   * @param {string} albumTitle
    * @returns {Promise<import('../entity/Album')>}
    */
   async getAlbumIfExistByTitle(albumTitle) {
-    const albumInstance = await this.albumModel.findByPk(albumTitle);
-    if (albumInstance) {
-      return albumInstance.id;
+    const albumInstance = await this.albumModel.findOne({
+      where: { title: albumTitle },
+    });
+    if (albumInstance !== null) {
+      return albumInstance;
     }
     return false;
   }
@@ -58,10 +61,6 @@ module.exports = class AlbumRepository {
 
   async getAlbumsLength() {
     return this.albumModel.count();
-  }
-
-  async getSongsLength() {
-    return this.albumModel.songs.count();
   }
 
   async getLastAlbum() {

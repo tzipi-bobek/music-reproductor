@@ -1,5 +1,5 @@
 {
-  "name": "taylors-version",
+  "name": "music-reproductor",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/tzipi-bobek/taylor-s-version.git"
+    "url": "git+ssh://git@github.com/tzipi-bobek/music-reproductor.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tzipi-bobek/taylor-s-version/issues"
+    "url": "https://github.com/tzipi-bobek/music-reproductor/issues"
   },
-  "homepage": "https://github.com/tzipi-bobek/taylor-s-version#readme",
+  "homepage": "https://github.com/tzipi-bobek/music-reproductor#readme",
   "dependencies": {
     "body-parser": "^1.20.2",
     "dotenv": "^16.3.1",

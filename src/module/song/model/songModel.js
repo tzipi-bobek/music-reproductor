@@ -73,6 +73,15 @@ class SongModel extends Model {
 
     return SongModel;
   }
+
+  /**
+   * @param {typeof import('../../album/model/albumModel')} AlbumModel
+   */
+  static setupAssociations(AlbumModel) {
+    AlbumModel.hasMany(SongModel, { foreignKey: 'albumId', constraints: false });
+    SongModel.belongsTo(AlbumModel, { foreignKey: 'albumId', constraints: false });
+    return SongModel;
+  }
 }
 
 module.exports = SongModel;

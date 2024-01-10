@@ -23,16 +23,16 @@
   <section class="section is-light">
     <div class="album-data"
       data-id="{{ album.id }}"
-      data-brand="{{ album.brand }}"
-      data-model="{{ album.model }}"
+      data-title="{{ album.title }}"
+      data-artist="{{ album.artist }}"
       data-year="{{ album.year }}"
       >
       <div class="container">
         <div class="columns">
           <div class="column">
             <h1 class="title">
-              {{ album.brand }}
-              {{ album.model }}
+              {{ album.title }}
+              {{ album.artist }}
               {{ album.year }}
             </h1>
           </div>
@@ -42,10 +42,5 @@
         </div>
       </div>
     </div>
-    {% include "album/views/layouts/delete-modal.njk" %}
   </section>
-{% endblock %}
-
-{% block footerScripts %}
-  <script type="text/javascript" src="/js/toggle-delete-modal.js"></script>
 {% endblock %}

@@ -25,7 +25,9 @@ function configureSequelizeDatabase() {
  * @param {DIContainer} container
  */
 function configureSongModule(container) {
-  return SongModel.setup(container.get('Sequelize'));
+  const model = SongModel.setup(container.get('Sequelize'));
+  model.setupAssociations(AlbumModel);
+  return model;
 }
 
 /**
@@ -94,7 +96,8 @@ function addAlbumModuleDefinitions(container) {
 module.exports = function configureDI() {
   const container = new DIContainer();
   addCommonDefinitions(container);
-  addSongModuleDefinitions(container);
   addAlbumModuleDefinitions(container);
+  container.get('AlbumModel');
+  addSongModuleDefinitions(container);
   return container;
 };

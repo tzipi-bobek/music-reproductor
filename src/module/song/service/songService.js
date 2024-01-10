@@ -13,12 +13,12 @@ module.exports = class SongService {
   /**
    * @param {import('../entity/Song')} song
    */
-  async save(song) {
+  async save(song, albumId) {
     if (!(song instanceof Song)) {
       throw new SongNotDefinedError();
     }
 
-    return this.songRepository.save(song);
+    return this.songRepository.save(song, albumId);
   }
 
   async getAll() {

@@ -15,12 +15,15 @@ module.exports = class SongRepository {
 
   /**
    * @param {import('../entity/Song')} song
+   * @param {import('../entity/Song').albumId} albumId
    */
-  async save(song) {
-    if (!(song instanceof Song)) {
+  async save(songParam, albumId) {
+    if (!(songParam instanceof Song)) {
       throw new SongNotDefinedError();
     }
 
+    const song = { ...songParam };
+    song.albumId = albumId;
     const songInstance = this.songModel.build(song, {
       isNewRecord: !song.id,
     });

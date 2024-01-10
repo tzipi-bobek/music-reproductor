@@ -19,7 +19,6 @@ module.exports = class AlbumController {
     app.get(`${ROUTE}`, this.index.bind(this));
     app.get(`${ROUTE}/manage`, this.manage.bind(this));
     app.get(`${ROUTE}/view/:albumId`, this.view.bind(this));
-    app.get(`${ROUTE}/add`, this.add.bind(this));
   }
 
   /**
@@ -67,23 +66,13 @@ module.exports = class AlbumController {
 
       const album = await this.albumService.getById(albumId);
       res.render(`${this.ALBUM_VIEWS}/view.njk`, {
-        title: `Viewing ${album.title} by ${album.artistFk} ${album.year}`,
+        title: `Viewing ${album.title} by ${album.artist} ${album.year}`,
         album,
         songs: album.songs,
       });
     } catch (e) {
       next(e);
     }
-  }
-
-  /**
-   * @param {import('express').Request} req
-   * @param {import('express').Response} res
-   */
-  add(req, res) {
-    res.render(`${this.ALBUM_VIEWS}/add.njk`, {
-      title: 'Add New Album',
-    });
   }
 
   /**

@@ -40,6 +40,7 @@ class AlbumModel extends Model {
         timestamps: true,
       },
     );
+
     return AlbumModel;
   }
 }

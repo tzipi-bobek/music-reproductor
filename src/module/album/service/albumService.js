@@ -11,10 +11,10 @@ module.exports = class AlbumService {
   }
 
   /**
-   * @param {import('../../song/entity/Song')} song
+   * @param {import('../entity/Album')} album
    */
-  async save(album) {
-    return this.albumRepository.save(album);
+  async save(album, song) {
+    return this.albumRepository.save(album, song);
   }
 
   /**

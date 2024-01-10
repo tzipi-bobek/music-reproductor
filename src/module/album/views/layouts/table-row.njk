@@ -1,3 +1,7 @@
+{% block stylesheets %}
+  <link rel="stylesheet" href="/css/img.css">
+{% endblock %}
+
 <tr class="album-data"
 data-id="{{ album.id }}"
 data-title="{{ album.title }}"
@@ -5,30 +9,16 @@ data-cover="{{ album.cover }}"
 data-year="{{ album.year }}"
 >
   <th>{{ album.id }}</th>
-  <td>{{ album.brand }}</td>
-  <td>{{ album.model }}</td>
+  <td>{{ album.title }}</td>
+  <td>{{ album.artist }}</td>
   <td>{{ album.year }}</td>
-  <td>{{ album.kms }}</td>
-  <td>{{ album.color }}</td>
-  <td>{{ album.ac }}</td>
-  <td>{{ album.passengers }}</td>
-  <td>{{ album.transmission }}</td>
-  <td>{{ album.price }}</td>
+  <td>{{ album.songNumber }}</td>
+  <td><img src="{{ album.cover if album.cover else '/img/no-cover-available.avif' }}" alt="song-cover"></td>
   <td>
     <a class="button" href="{{"/album/view/" + album.id}}">
       <span class="icon">
         <i class="fas fa-search has-text-black"></i>
       </span>
     </a>
-    <a class="button" href="{{"/album/edit/" + album.id}}">
-      <span class="icon">
-        <i class="fas fa-edit has-text-black"></i>
-      </span>
-    </a>
-    <button class="button delete-button">
-      <span class="icon">
-        <i class="fas fa-trash"></i>
-      </span>
-    </button>
   </td>
 </tr>

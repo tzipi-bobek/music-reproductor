@@ -23,8 +23,10 @@
                   <td>{{ song.title }}</td>
                   <td>{{ song.artist }}</td>
                   <td>{{ song.year }}</td>
-                  <td>{{ song.audioFile }}</td>
-                  <td>{{ song.cover }}</td>
+                  <td><audio controls data-role="audio-player" data-src="{{ song.audioFile if song.audioFile }}" alt="song-audio">
+                    <source src="{{ song.audioFile }}">
+                  </audio></td>
+                  <td><img src="{{ song.cover if song.cover else '/img/no-cover-available.avif' }}" object-fit="cover" alt="song-cover"></td>
                 </tr>
               {% endfor %}
           </tbody>
