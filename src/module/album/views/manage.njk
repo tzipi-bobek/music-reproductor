@@ -2,12 +2,13 @@
 
 {% block stylesheets %}
   <link rel="stylesheet" href="/css/manage.css">
+  <link rel="stylesheet" href="/css/img.css">
 {% endblock %}
 
 {% block body %}
   <section class="section">
     <div class="container">
-      <h1 class="title">Hay {{ albums.length }} albums.</h1>
+      <h1 class="title">Hay {{ albums.length }} album/s.</h1>
       <table class="table align-middle">
         <tbody>
           {% for album in albums %}

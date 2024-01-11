@@ -1,24 +1,32 @@
-{% block stylesheets %}
-  <link rel="stylesheet" href="/css/img.css">
-{% endblock %}
-
 <tr class="album-data"
 data-id="{{ album.id }}"
 data-title="{{ album.title }}"
 data-cover="{{ album.cover }}"
 data-year="{{ album.year }}"
 >
-  <th>{{ album.id }}</th>
-  <td>{{ album.title }}</td>
-  <td>{{ album.artist }}</td>
-  <td>{{ album.year }}</td>
-  <td>{{ album.songNumber }}</td>
-  <td><img src="{{ album.cover if album.cover else '/img/no-cover-available.avif' }}" alt="song-cover"></td>
-  <td>
-    <a class="button" href="{{"/album/view/" + album.id}}">
-      <span class="icon">
-        <i class="fas fa-search has-text-black"></i>
-      </span>
-    </a>
-  </td>
+  <div class="card" style="display: inline-block;">
+  <div class="card-image">
+    <figure class="image">
+      <img src="{{ album.cover if album.cover else '/img/no-cover-available.avif' }}" alt="song-cover" style="width: 300px; height: 300px;">
+    </figure>
+  </div>
+  <div class="card-content">
+    <div class="media">
+      <div class="media-content">
+        <p class="title is-4">{{ album.title }}</p>
+        <p class="subtitle is-6">{{ album.artist }}</p>
+        <p class="title is-7">{{ album.year }}</p>
+      </div>
+    </div>
+
+    <div class="content">
+      tiene {{ album.songsNumber }} cancion/es
+      <a class="button" href="{{"/album/view/" + album.id}}">
+        <span class="icon">
+          <i class="fas fa-search has-text-black"></i>
+        </span>
+      </a>
+    </div>
+  </div>
+</div>
 </tr>

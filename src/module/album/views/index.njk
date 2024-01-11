@@ -12,26 +12,35 @@
         </div>
       </nav>
     </div>
-  </section>
-  {% if lastAddedSong %}
+  {% if lastAddedAlbum %}
     <section class="hero">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">Último album agregado</h1>
-          <table class="table">
-            <div class="card">
-              <div class="card-image">
-                <figure class="image is-4by3">
-                  <img src="{{ album.cover }}" alt="{{ album.title }}">
-                </figure>
-              </div>
-              <div class="card-content">
-                <p class="title is-4">{{ album.title }}</p>
-              </div>
+          <div class="columns is-centered">
+            <div>
+              <h1 class="title has-text-centered">Último album agregado</h1>
+              <table class="table">
+                <div class="card is-centered" style="display: inline-block;">
+                  <div class="card-image">
+                    <figure class="image" style="width: 350px; height: 350px;">
+                      <img src="{{ lastAddedAlbum.cover if lastAddedAlbum.cover else '/img/no-cover-available.avif' }}" alt="song-cover" style="width: 100%; height: 100%;">
+                    </figure>
+                  </div>
+                  <div class="card-content" style="width: 350px;">
+                    <p class="title is-3">{{ lastAddedAlbum.title }}</p>
+                    <p class="subtitle is-4">{{ lastAddedAlbum.artist }}</p>
+                    <p class="title is-7">{{ lastAddedAlbum.year }}</p>
+
+                    <p><strong>Creado: </strong>{{ lastAddedAlbum.createdAt }}</p>
+                    <p><strong>Actualizado: </strong>{{ lastAddedAlbum.updatedAt }}</p>
+                  </div>
+                </div>
+              </table>
             </div>
-          </table>
+          </div>
         </div>
       </div>
     </section>
   {% endif %}
+  </section>
 {% endblock %}

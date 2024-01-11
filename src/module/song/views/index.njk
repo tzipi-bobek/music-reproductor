@@ -12,81 +12,36 @@
         </div>
       </nav>
     </div>
-  </section>
   {% if lastAddedSong %}
-    <section class="hero">
+      <section class="hero">
       <div class="hero-body">
         <div class="container">
-          <h1 class="title">Última cancion agregada</h1>
-          <table class="table">
-            <tbody>
-              <tr>
-                <th>ID</th>
-                <td>{{ lastAddedSong.id }}</td>
-              </tr>
-              <tr>
-                <th>Titulo</th>
-                <td>{{ lastAddedSong.title }}</td>
-              </tr>
-              <tr>
-                <th>Cancion</th>
-                <td>
-                  <audio controls data-role="audio-player" data-src="{{ song.audioFile if song.audioFile }}" alt="song-audio">
-                    <source src="{{ lastAddedSong.audioFile }}">
-                  </audio>
-                </td>
-              <tr>
-                <th>Titulo de Album</th>
-                <td>{{ lastAddedSong.albumTitle }}</td>
-              </tr>
-              <tr>
-                <th>Artista</th>
-                <td>{{ lastAddedSong.artist }}</td>
-              </tr>
-              <tr>
-                <th>Artista del Album</th>
-                <td>{{ lastAddedSong.albumArtist }}</td>
-              </tr>
-              <tr>
-                <th>Compositor/a</th>
-                <td>{{ lastAddedSong.compositor }}</td>
-              </tr>
-              <tr>
-                <th>Género</th>
-                <td>{{ lastAddedSong.genre }}</td>
-              </tr>
-              <tr>
-                <th>Letras</th>
-                <td>{{ lastAddedSong.lyrics }}</td>
-              </tr>
-              <tr>
-                <th>Letrista</th>
-                <td>{{ lastAddedSong.lyricist }}</td>
-              </tr>
-              <tr>
-                <th>Numero de Pista</th>
-                <td>{{ lastAddedSong.trackNumber }}</td>
-              </tr>
-              <tr>
-                <th>Año</th>
-                <td>{{ lastAddedSong.year }}</td>
-              </tr>
-              <tr>
-                <th>Comentario</th>
-                <td>{{ lastAddedSong.coment }}</td>
-              </tr>
-              <tr>
-                <th>Creado</th>
-                <td>{{ lastAddedSong.createdAt }}</td>
-              </tr>
-              <tr>
-                <th>Actualizado</th>
-                <td>{{ lastAddedSong.updatedAt }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="columns is-centered">
+            <div class="column">
+              <h1 class="title has-text-centered">Última cancion agregada</h1>
+              <div style="display: flex; justify-content: center;">
+                <div class="card has-text-centered">
+                  <div class="card-image">
+                    <figure class="image" style="width: 350px; height: 350px;">
+                      <img src="{{ lastAddedSong.cover if lastAddedSong.cover else '/img/no-cover-available.avif' }}" alt="song-cover" style="width: 100%; height: 100%;">
+                    </figure>
+                  </div>
+                  <div class="card-content" style="width: 350px;">
+                    <p class="title is-3">{{ lastAddedSong.title }}</p>
+                    <p class="subtitle is-4">{{ lastAddedSong.albumTitle }}</p>
+                    <p class="title is-6">{{ lastAddedSong.artist }}</p>
+                    <p class="subtitle is-7">{{ lastAddedSong.year }}</p>
+                    <audio controls data-role="audio-player" src="{{ lastAddedSong.audioFile if lastAddedSong.audioFile }}" alt="song-audio"></audio>
+                    <p><strong>Creado: </strong>{{ lastAddedSong.createdAt }}</p>
+                    <p><strong>Actualizado: </strong>{{ lastAddedSong.updatedAt }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
+  </section>
   {% endif %}
 {% endblock %}

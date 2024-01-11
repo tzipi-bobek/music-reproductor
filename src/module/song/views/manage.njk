@@ -7,30 +7,13 @@
 {% block body %}
   <section class="section">
     <div class="container">
-      <h1 class="title">Hay {{ songs.length }} canciones.</h1>
+      <h1 class="title">Hay {{ songs.length }} cancion/es.</h1>
       <table class="table align-middle">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Titulo</th>
-            <th>Titulo de Album</th>
-            <th>Artista</th>
-            <th>Artista del Album</th>
-            <th>Compositor/a</th>
-            <th>Género</th>
-            <th>Letras</th>
-            <th>Letrista</th>
-            <th>Número de Pista</th>
-            <th>Año</th>
-            <th></th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for song in songs %}
-            {% include "song/views/layouts/table-row.njk" %}
-          {% endfor %}
-        </tbody>
+        <div class="tile is-parent" style="display: inline-block;">
+              {% for song in songs %}
+                {% include "song/views/layouts/table-row.njk" %}
+              {% endfor %}
+        </div>
       </table>
       {% include "song/views/layouts/delete-modal.njk" %}
     </div>

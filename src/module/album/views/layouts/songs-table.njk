@@ -1,36 +1,34 @@
-<div class="tile is-parent">
+<div class="tile is-parent" style="display: inline-block;">
   <article class="tile is-child notification is-info is-light">
     <div class="content">
       <p class="title">Canciones</p>
       <div class="content">
-          <table class="table align-middle">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Titulo</th>
-                <th>Artista</th>
-                <th>Año</th>
-                <th>Cancion</th>
-                <th>Cover</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for song in songs | reverse %}
-                <tr>
-                  <th>
-                    <a href="{{ "/song/view/" + song.id }}">{{ song.id }}</a>
-                  </th>
-                  <td>{{ song.title }}</td>
-                  <td>{{ song.artist }}</td>
-                  <td>{{ song.year }}</td>
-                  <td><audio controls data-role="audio-player" data-src="{{ song.audioFile if song.audioFile }}" alt="song-audio">
-                    <source src="{{ song.audioFile }}">
-                  </audio></td>
-                  <td><img src="{{ song.cover if song.cover else '/img/no-cover-available.avif' }}" object-fit="cover" alt="song-cover"></td>
-                </tr>
-              {% endfor %}
-          </tbody>
-        </table>
+      {% for song in songs | reverse %}
+        <div class="box">
+          <article class="media">
+            <div class="media-left">
+              <figure class="image is-100x100">
+                <img src="{{ song.cover if song.cover else '/img/no-cover-available.avif' }}" alt="song-cover" style="width: 100px; height: 100px; object-fit: cover;">
+              </figure>
+            </div>
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong>{{ song.title }}</strong> <small>{{ song.artist }}</small> <small>{{ song.year }}</small>
+                  <br>
+                  <br>
+                  <audio controls data-role="audio-player" src="{{ song.audioFile if song.audioFile }}" alt="song-audio"></audio>
+                  <a class="button" href="{{"/song/view/" + song.id}}">
+                    <span class="icon">
+                      <i class="fas fa-search has-text-black"></i>
+                    </span>
+                  </a>
+                </p>
+              </div>
+            </div>
+          </article>
+        </div>
+      {% endfor %}
       </div>
     </div>
   </article>

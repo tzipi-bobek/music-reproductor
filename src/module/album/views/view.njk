@@ -28,18 +28,12 @@
       data-year="{{ album.year }}"
       >
       <div class="container">
-        <div class="columns">
-          <div class="column">
-            <h1 class="title">
-              {{ album.title }}
-              {{ album.artist }}
-              {{ album.year }}
-            </h1>
-          </div>
-          <div class="column">
-            {% include "album/views/layouts/songs-table.njk" %}
-          </div>
+        <div class="media-content">
+          <h1 class="title is-1">{{ album.title }}</h1>
+          <h2 class="subtitle is-4">{{ album.artist }}</h2>
+          <h3 class="title is-6">{{ album.year }}</h3>
         </div>
+          {% include "album/views/layouts/songs-table.njk" %}
       </div>
     </div>
   </section>
