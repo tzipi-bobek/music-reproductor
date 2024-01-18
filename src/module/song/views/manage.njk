@@ -2,6 +2,7 @@
 
 {% block stylesheets %}
   <link rel="stylesheet" href="/css/manage.css">
+  <link rel="stylesheet" href="/css/drawer.css">
 {% endblock %}
 
 {% block body %}
@@ -10,16 +11,22 @@
       <h1 class="title">Hay {{ songs.length }} cancion/es.</h1>
       <table class="table align-middle">
         <div class="tile is-parent" style="display: inline-block;">
-              {% for song in songs %}
-                {% include "song/views/layouts/table-row.njk" %}
-              {% endfor %}
+            {% for song in songs  | sort(attribute='title') %}
+              {% include "song/views/layouts/table-row.njk" %}
+              <div id="drawer-{{ song.id }}" class="drawer">
+                <div class="drawer-content content">
+                  <h5 class="title is-5 has-text-white">Letras de "{{ song.title }}":</h5>
+                  <p id="lyrics"></p>
+                </div>
+              </div>
+            {% endfor %}
         </div>
       </table>
-      {% include "song/views/layouts/delete-modal.njk" %}
     </div>
   </section>
 {% endblock %}
 
 {% block footerScripts %}
   <script type="text/javascript" src="/js/toggle-delete-modal.js"></script>
+  <script type="text/javascript" src="/js/drawer.js"></script>
 {% endblock %}
