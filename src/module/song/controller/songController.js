@@ -128,6 +128,12 @@ module.exports = class SongController {
     const { albumTitle } = song;
     let album = await this.albumService.getAlbumIfExistByTitle(albumTitle);
 
+    let previousAlbum;
+    if (song.id) {
+      const previousSong = await this.songService.getById(song.id);
+      previousAlbum = await this.albumService.getById(previousSong.albumId);
+    }
+
     if (req.files['song-cover']) {
       const coverPath = req.files['song-cover'][0].path.split('public')[1];
       song.cover = coverPath;
@@ -136,18 +142,48 @@ module.exports = class SongController {
       const audioPath = req.files['song-audio'][0].path.split('public')[1];
       song.audioFile = audioPath;
     }
-
     if (album) {
-      if (!song.id) {
-        album.songsNumber += 1;
+      if (!song.id || (previousAlbum && previousAlbum.id !== album.id)) {
+        album.songsNumber = (await this.songService.getSongsLengthByAlbum(album.id)) + 1;
+      }
+      if (!album.cover) {
+        album.cover = song.cover;
       }
       await this.albumService.save(album, song);
     } else {
       album = await this.albumService.create(song);
     }
 
+    if (previousAlbum && previousAlbum.id !== album.id) {
+      previousAlbum.songsNumber =
+        (await this.songService.getSongsLengthByAlbum(previousAlbum.id)) - 1;
+      if (previousAlbum.songsNumber === 0) {
+        await this.albumService.delete(previousAlbum);
+      } else {
+        await this.albumService.save(previousAlbum);
+      }
+    }
+
     song.album = await this.albumService.getById(album.id);
-    await this.songService.save(song, album.id);
+    song.albumId = album.id;
+    await this.songService.save(song);
+
+    if (album.cover) {
+      const songs = await this.songService.getSongsByAlbum(album.id);
+
+      const albumCoverIsUsed = songs.some((thisSong) => thisSong.cover === album.cover);
+
+      const songsWithCover = songs.filter((thisSong) => thisSong.cover);
+
+      if (!albumCoverIsUsed) {
+        if (songsWithCover.length > 0) {
+          const newCover = songsWithCover[0].cover;
+          album.cover = newCover;
+          await this.albumService.save(album, song);
+        }
+      }
+    }
+
     res.redirect(this.ROUTE_BASE);
   }
 
@@ -158,7 +194,19 @@ module.exports = class SongController {
   async delete(req, res) {
     const { songId } = req.params;
     const song = await this.songService.getById(songId);
+    const { albumId } = song;
+    const album = await this.albumService.getById(albumId);
+
     this.songService.delete(song);
+
+    album.songsNumber = await this.songService.getSongsLengthByAlbum(album.id);
+
+    if (album.songsNumber === 0) {
+      await this.albumService.delete(album);
+    } else {
+      await this.albumService.save(album);
+    }
+
     res.redirect(this.ROUTE_BASE);
   }
 };

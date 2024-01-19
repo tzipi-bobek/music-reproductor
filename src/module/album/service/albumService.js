@@ -63,9 +63,6 @@ module.exports = class AlbumService {
     if (!(album instanceof Album)) {
       throw new AlbumNotDefinedError();
     }
-    if (album.songs.length === 0) {
-      return this.albumRepository.delete(album);
-    }
-    return this;
+    return this.albumRepository.delete(album);
   }
 };

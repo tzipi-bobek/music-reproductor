@@ -33,9 +33,12 @@ module.exports = class AlbumRepository {
    * @param {import('../entity/Album')} album
    * @param {import('../../song/entity/Song')} song
    */
-  // eslint-disable-next-line class-methods-use-this
   async save(album, song) {
-    await this.albumModel.update({ songsNumber: album.songsNumber }, { where: { id: album.id } });
+    await this.albumModel.update(
+      { songsNumber: album.songsNumber, cover: album.cover },
+      { where: { id: album.id } },
+    );
+
     const updatedAlbum = await this.albumModel.findByPk(album.id);
     return fromModelToEntity(updatedAlbum, song);
   }
