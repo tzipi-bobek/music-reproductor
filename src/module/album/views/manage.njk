@@ -9,13 +9,17 @@
   <section class="section">
     <div class="container">
       <h1 class="title">Hay {{ albums.length }} album/s.</h1>
-      <table class="table align-middle">
-        <tbody>
-          {% for album in albums %}
-            {% include "album/views/layouts/table-row.njk" %}
-          {% endfor %}
-        </tbody>
-      </table>
+      <div class="columns is-multiline is-centered">
+        
+          <table class="table">
+            <tbody>
+              {% for album in albums %}
+                {% include "album/views/layouts/table-row.njk" %}
+              {% endfor %}
+            </tbody>
+          </table>
+        
+      </div>
     </div>
-  </section>
+</section>
 {% endblock %}

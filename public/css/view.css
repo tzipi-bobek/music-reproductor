@@ -1,0 +1,27 @@
+  .table {
+    table-layout: fixed;
+    width: 100%;
+  }  
+
+  .table th {
+    width: 20%;
+  }
+  
+  .table td {
+    width: 80%;
+    overflow-wrap: break-word;
+  }
+
+  #lyrics .content {
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+
+  #lyrics .toggle-button {
+    background: none;
+    color: #0d4eaf;
+    border: none;
+    padding: 0;
+    font: caption;
+    cursor: pointer;
+  }

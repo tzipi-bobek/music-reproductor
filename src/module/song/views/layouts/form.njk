@@ -103,7 +103,8 @@
                   <source src="{{ song.audioFile if song.audioFile }}">
                 </audio>
                 <div class="control">
-                  <input id="audio-input" required class="input" type="file" name="song-audio">
+                  <input id="audio-input" required class="input" type="file" name="song-audio"
+                        value="{{ song.audioFile if song }}">
                 </div>
             </div>
             {% endif %}
@@ -112,9 +113,14 @@
                 <label class="label">Cover</label>
                 <img id="cover-preview" src="{{ song.cover if song.cover else '/img/no-cover-available.avif' }}" alt="song-cover">
                 <div class="control">
-                  <input id="cover-input" class="input" type="file" name="song-cover">
+                  <input id="cover-input" class="input" type="file" name="song-cover"
+                        value="{{ song.cover if song }}">
                 </div>
             </div>
         </div>
     </div>
 </form>
+
+{% block footerScripts %}
+  <script type="text/javascript" src="/js/toggle-imput-cover.js"></script>
+{% endblock %}

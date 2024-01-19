@@ -4,7 +4,8 @@ data-title="{{ album.title }}"
 data-cover="{{ album.cover }}"
 data-year="{{ album.year }}"
 >
-  <div class="card" style="display: inline-block;">
+<div class="column is-one-quarter">
+<div class="card" style="display: inline-block;">
   <div class="card-image">
     <figure class="image">
       <img src="{{ album.cover if album.cover else '/img/no-cover-available.avif' }}" alt="song-cover" style="width: 300px; height: 300px;">
@@ -28,5 +29,6 @@ data-year="{{ album.year }}"
       </a>
     </div>
   </div>
+</div>
 </div>
 </tr>

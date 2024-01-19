@@ -3,7 +3,7 @@
     <div class="content">
       <p class="title">Canciones</p>
       <div class="content">
-      {% for song in songs | reverse %}
+      {% for song in songs | sort(attribute='trackNumber') %}
         <div class="box">
           <article class="media">
             <div class="media-left">
@@ -14,7 +14,7 @@
             <div class="media-content">
               <div class="content">
                 <p>
-                  <strong>{{ song.title }}</strong> <small>{{ song.artist }}</small> <small>{{ song.year }}</small>
+                  <strong>{{ song.title }}</strong> - <small>{{ song.artist }}</small> - <small>{{ song.year }}</small>
                   <br>
                   <br>
                   <audio controls data-role="audio-player" src="{{ song.audioFile if song.audioFile }}" alt="song-audio"></audio>

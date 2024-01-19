@@ -1,5 +1,10 @@
 {% extends "views/layouts/base.njk" %}
 
+{% block stylesheets %}
+  <link rel="stylesheet" href="/css/view.css">
+  <link rel="stylesheet" href="/css/img.css">
+{% endblock %}
+
 {% block body %}
   <section class="section is-light">
     <div class="song-data"
@@ -7,13 +12,14 @@
       data-title="{{ song.title }}"
       data-artist="{{ song.artist }}"
       data-year="{{ song.year }}"
+      data-lyrics="{{ song.lyrics }}"
       >
       <div class="container">
         <div class="columns">
           <div class="column is-two-thirds">
             <h1 class="title">
-              {{ song.title }}
-              {{ song.artist }}
+              {{ song.title }} - 
+              {{ song.artist }} - 
               {{ song.year }}
             </h1>
             <table class="table">
@@ -52,7 +58,10 @@
                 </tr>
                 <tr>
                   <th>Letras</th>
-                  <td>{{ song.lyrics }}</td>
+                  <td id="lyrics">
+                    <p class="content"></p>
+                    <button class="toggle-button">Mostrar más</button>
+                  </td>
                 </tr>
                 <tr>
                   <th>Letrista</th>
@@ -120,4 +129,5 @@
 
 {% block footerScripts %}
   <script type="text/javascript" src="/js/toggle-delete-modal.js"></script>
+  <script type="text/javascript" src="/js/toggle-lyrics.js"></script>
 {% endblock %}
