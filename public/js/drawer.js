@@ -5,7 +5,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
     button.addEventListener('click', function () {
       document.querySelectorAll('.drawer').forEach((drawer) => {
         drawer.style.width = '0';
-        const lyricsElement = drawer.querySelector('#lyrics');
+        const lyricsElement = drawer.querySelector('.drawer-content #lyrics');
         lyricsElement.innerHTML = '';
       });
 

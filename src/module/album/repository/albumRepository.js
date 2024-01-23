@@ -34,13 +34,52 @@ module.exports = class AlbumRepository {
    * @param {import('../../song/entity/Song')} song
    */
   async save(album, song) {
-    await this.albumModel.update(
-      { songsNumber: album.songsNumber, cover: album.cover },
-      { where: { id: album.id } },
+    if (!(album instanceof Album)) {
+      throw new AlbumNotDefinedError();
+    }
+
+    const albumInstance = this.songModel.build(album, {
+      isNewRecord: !album.id,
+    });
+    await albumInstance.save();
+    return fromModelToEntity(albumInstance, song);
+  }
+
+  async updateAlbumAttribute(album, songs) {
+    if (!album || !songs) {
+      throw new Error('Invalid album or songs');
+    }
+
+    const albumAttributes = ['cover', 'year', 'artist'];
+    const songAttributes = ['cover', 'year', 'albumArtist'];
+
+    for (let i = 0; i < 3; i += 1) {
+      // eslint-disable-next-line no-param-reassign, no-await-in-loop
+      album = await this.updateAttribute(album, songs, albumAttributes[i], songAttributes[i]);
+    }
+
+    return album;
+  }
+
+  /**
+   * @param {import('../entity/Album')} album
+   * @param {import('../../song/entity/Song')[]} songs
+   */
+  // eslint-disable-next-line class-methods-use-this
+  async updateAttribute(album, songs, albumAttribute, songAttribute) {
+    const albumAttributeIsUsed = songs.some(
+      (thisSong) => thisSong[songAttribute] === album[albumAttribute],
     );
 
-    const updatedAlbum = await this.albumModel.findByPk(album.id);
-    return fromModelToEntity(updatedAlbum, song);
+    const songsWithAttribute = songs.filter((thisSong) => thisSong[songAttribute]);
+
+    if (!albumAttributeIsUsed && songsWithAttribute.length > 0) {
+      const newAttribute = songsWithAttribute[0][songAttribute];
+      // eslint-disable-next-line no-param-reassign
+      album[albumAttribute] = newAttribute;
+    }
+
+    return album;
   }
 
   /**

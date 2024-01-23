@@ -19,6 +19,15 @@
 }
 
 .open-btn {
+  background: url('../img/lyrics.png') no-repeat;
+  background-size: 25px;
+  background-position: center;
+  width: 100px;
+  height: 100px;
   top: 0;
   right: 0;
+}
+
+#lyrics {
+  color: white;
 }

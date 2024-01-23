@@ -1,3 +1,7 @@
+{% block stylesheets %}
+  <link rel="stylesheet" href="/css/drawer.css">
+{% endblock %}
+
 <div class="tile is-parent" style="display: inline-block;">
   <article class="tile is-child notification is-info is-light">
     <div class="content">
@@ -18,6 +22,11 @@
                   <br>
                   <br>
                   <audio controls data-role="audio-player" src="{{ song.audioFile if song.audioFile }}" alt="song-audio"></audio>
+                  <button class="button">
+                    <span class="icon">
+                      <i class="open-btn has-text-black" data-drawer-id="{{ song.id }}" data-lyrics="{{ song.lyrics }}"></i>
+                    </span>
+                  </button>
                   <a class="button" href="{{"/song/view/" + song.id}}">
                     <span class="icon">
                       <i class="fas fa-search has-text-black"></i>
@@ -28,8 +37,20 @@
             </div>
           </article>
         </div>
+        <div id="drawer-{{ song.id }}" class="drawer">
+          <button class="delete close-btn is-large"></button>
+          <div class="drawer-content content">
+            <h5 class="title is-5 has-text-white">Letras de "{{ song.title }}":</h5>
+            <p id="lyrics"></p>
+          </div>
+        </div>
       {% endfor %}
       </div>
     </div>
   </article>
 </div>
+
+
+{% block footerScripts %}
+  <script type="text/javascript" src="/js/drawer.js"></script>
+{% endblock %}

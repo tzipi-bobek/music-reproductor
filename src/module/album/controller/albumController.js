@@ -34,7 +34,7 @@ module.exports = class AlbumController {
       lastAddedAlbum = null;
     } finally {
       res.render(`${this.ALBUM_VIEWS}/index.njk`, {
-        title: 'Add an Album',
+        title: 'Last Album Added',
         albumsLength,
         lastAddedAlbum,
       });

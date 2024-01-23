@@ -20,7 +20,7 @@ module.exports = class DefaultController {
   async index(req, res) {
     const albums = await this.albumService.getAll();
     res.render(`${this.ALBUM_VIEWS_DIR}/manage.njk`, {
-      title: "Últimos Albums - Taylor's Version",
+      title: 'Últimos Albums',
       albums,
     });
   }

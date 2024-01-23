@@ -24,6 +24,14 @@ module.exports = class AlbumService {
     return this.albumRepository.create(song);
   }
 
+  /**
+   * @param {import('../entity/Album')} album
+   * @param {import('../../song/entity/Song')[]} songs
+   */
+  async updateAlbumAttribute(album, songs) {
+    return this.albumRepository.updateAlbumAttribute(album, songs);
+  }
+
   async getAll() {
     return this.albumRepository.getAll();
   }

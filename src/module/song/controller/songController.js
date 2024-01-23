@@ -142,21 +142,16 @@ module.exports = class SongController {
       const audioPath = req.files['song-audio'][0].path.split('public')[1];
       song.audioFile = audioPath;
     }
-    if (album) {
-      if (!song.id || (previousAlbum && previousAlbum.id !== album.id)) {
-        album.songsNumber = (await this.songService.getSongsLengthByAlbum(album.id)) + 1;
-      }
-      if (!album.cover) {
-        album.cover = song.cover;
-      }
-      await this.albumService.save(album, song);
-    } else {
+    if (!album) {
       album = await this.albumService.create(song);
     }
 
+    song.album = await this.albumService.getById(album.id);
+    song.albumId = album.id;
+    await this.songService.save(song);
+
     if (previousAlbum && previousAlbum.id !== album.id) {
-      previousAlbum.songsNumber =
-        (await this.songService.getSongsLengthByAlbum(previousAlbum.id)) - 1;
+      previousAlbum.songsNumber = await this.songService.getSongsLengthByAlbum(previousAlbum.id);
       if (previousAlbum.songsNumber === 0) {
         await this.albumService.delete(previousAlbum);
       } else {
@@ -164,25 +159,10 @@ module.exports = class SongController {
       }
     }
 
-    song.album = await this.albumService.getById(album.id);
-    song.albumId = album.id;
-    await this.songService.save(song);
-
-    if (album.cover) {
-      const songs = await this.songService.getSongsByAlbum(album.id);
-
-      const albumCoverIsUsed = songs.some((thisSong) => thisSong.cover === album.cover);
-
-      const songsWithCover = songs.filter((thisSong) => thisSong.cover);
-
-      if (!albumCoverIsUsed) {
-        if (songsWithCover.length > 0) {
-          const newCover = songsWithCover[0].cover;
-          album.cover = newCover;
-          await this.albumService.save(album, song);
-        }
-      }
-    }
+    const songs = await this.songService.getSongsByAlbum(album.id);
+    album = await this.albumService.updateAlbumAttribute(album, songs);
+    album.songsNumber = await this.songService.getSongsLengthByAlbum(album.id);
+    await this.albumService.save(album, song);
 
     res.redirect(this.ROUTE_BASE);
   }
