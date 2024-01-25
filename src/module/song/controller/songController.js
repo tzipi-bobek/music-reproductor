@@ -155,6 +155,8 @@ module.exports = class SongController {
       if (previousAlbum.songsNumber === 0) {
         await this.albumService.delete(previousAlbum);
       } else {
+        const songs = await this.songService.getSongsByAlbum(previousAlbum.id);
+        previousAlbum = await this.albumService.updateAlbumAttribute(previousAlbum, songs);
         await this.albumService.save(previousAlbum);
       }
     }
