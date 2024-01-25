@@ -20,9 +20,9 @@ data-lyrics="{{ song.lyrics }}"
               <br>
               <br>
               <audio controls data-role="audio-player" src="{{ song.audioFile if song.audioFile }}" alt="song-audio"></audio>
-              <button class="button">
+              <button class="button lyrics-button">
                 <span class="icon">
-                  <i class="open-btn has-text-black" data-drawer-id="{{ song.id }}" data-lyrics="{{ song.lyrics }}"></i>
+                  <i class="open-btn"></i>
                 </span>
               </button>
               <a class="button" href="{{"/song/view/" + song.id}}">
@@ -48,3 +48,4 @@ data-lyrics="{{ song.lyrics }}"
     </div>
   </th>
 </tr>
+{% include "song/views/layouts/lyrics-modal.njk" %}

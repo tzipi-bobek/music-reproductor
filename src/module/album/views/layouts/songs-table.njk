@@ -1,56 +1,53 @@
-{% block stylesheets %}
-  <link rel="stylesheet" href="/css/drawer.css">
-{% endblock %}
-
 <div class="tile is-parent" style="display: inline-block;">
   <article class="tile is-child notification is-info is-light">
-    <div class="content">
+    <div class="container">
       <p class="title">Canciones</p>
-      <div class="content">
+      <table class="table">
+      <div class="tile is-parent">
       {% for song in songs | sort(attribute='trackNumber') %}
-        <div class="box">
-          <article class="media">
-            <div class="media-left">
-              <figure class="image is-100x100">
-                <img src="{{ song.cover if song.cover else '/img/no-cover-available.avif' }}" alt="song-cover" style="width: 100px; height: 100px; object-fit: cover;">
-              </figure>
+        <tr class="song-data"
+        data-id="{{ song.id }}"
+        data-title="{{ song.title }}"
+        data-artist="{{ song.artist }}"
+        data-year="{{ song.year }}"
+        data-lyrics="{{ song.lyrics }}"
+        >
+          <th>
+            <div class="box">
+              <article class="media">
+                <div class="media-left">
+                  <figure class="image is-100x100">
+                    <img src="{{ song.cover if song.cover else '/img/no-cover-available.avif' }}" alt="song-cover" style="width: 100px; height: 100px; object-fit: cover;">
+                  </figure>
+                </div>
+                <div class="media-content">
+                  <div class="content">
+                    <p>
+                      <strong>{{ song.title }}</strong> - <small>{{ song.artist }}</small> - <small>{{ song.year }}</small>
+                      <br>
+                      <br>
+                      <audio controls data-role="audio-player" src="{{ song.audioFile if song.audioFile }}" alt="song-audio"></audio>
+                      <button class="button lyrics-button">
+                        <span class="icon">
+                          <i class="open-btn"></i>
+                        </span>
+                      </button>
+                      <a class="button" href="{{"/song/view/" + song.id}}">
+                        <span class="icon">
+                          <i class="fas fa-search has-text-black"></i>
+                        </span>
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              </article>
             </div>
-            <div class="media-content">
-              <div class="content">
-                <p>
-                  <strong>{{ song.title }}</strong> - <small>{{ song.artist }}</small> - <small>{{ song.year }}</small>
-                  <br>
-                  <br>
-                  <audio controls data-role="audio-player" src="{{ song.audioFile if song.audioFile }}" alt="song-audio"></audio>
-                  <button class="button">
-                    <span class="icon">
-                      <i class="open-btn has-text-black" data-drawer-id="{{ song.id }}" data-lyrics="{{ song.lyrics }}"></i>
-                    </span>
-                  </button>
-                  <a class="button" href="{{"/song/view/" + song.id}}">
-                    <span class="icon">
-                      <i class="fas fa-search has-text-black"></i>
-                    </span>
-                  </a>
-                </p>
-              </div>
-            </div>
-          </article>
-        </div>
-        <div id="drawer-{{ song.id }}" class="drawer">
-          <button class="delete close-btn is-large"></button>
-          <div class="drawer-content content">
-            <h5 class="title is-5 has-text-white">Letras de "{{ song.title }}":</h5>
-            <p id="lyrics"></p>
-          </div>
-        </div>
+          </th>
+        </tr>
+{% include "song/views/layouts/lyrics-modal.njk" %}
       {% endfor %}
       </div>
+      </table>
     </div>
   </article>
 </div>
-
-
-{% block footerScripts %}
-  <script type="text/javascript" src="/js/drawer.js"></script>
-{% endblock %}

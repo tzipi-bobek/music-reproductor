@@ -1,5 +1,9 @@
 {% extends "views/layouts/base.njk" %}
 
+{% block stylesheets %}
+  <link rel="stylesheet" href="/css/lyrics.css">
+{% endblock %}
+
 {% block body %}
 {% for album in albums | reverse %}
 <div class="card">
@@ -37,4 +41,8 @@
       </div>
     </div>
   </section>
+{% endblock %}
+
+{% block footerScripts %}
+  <script type="text/javascript" src="/js/toggle-lyrics-modal.js"></script>
 {% endblock %}

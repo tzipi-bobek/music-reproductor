@@ -1,0 +1,22 @@
+#lyrics-modal {
+  position: fixed;
+  right: 10px;
+  top: 8%; 
+  max-width: 700px;
+  overflow-y: auto;
+  display: none;
+}
+
+#lyrics-modal.is-active {
+  display: block;
+}
+
+.open-btn {
+  background: url('../img/lyrics.png') no-repeat;
+  background-size: 25px;
+  background-position: center;
+  width: 100px;
+  height: 100px;
+  top: 0;
+  right: 0;
+}

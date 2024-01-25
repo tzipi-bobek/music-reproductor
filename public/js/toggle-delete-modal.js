@@ -1,4 +1,4 @@
-const $modal = document.querySelector('.modal');
+const $modal = document.querySelector('#delete-modal');
 const $html = document.querySelector('html');
 const $deleteButtons = document.querySelectorAll('.delete-button');
 const $cancelDeleteButtons = $modal.querySelectorAll('.cancel-delete-button');
