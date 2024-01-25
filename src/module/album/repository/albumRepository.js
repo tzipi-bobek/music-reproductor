@@ -34,15 +34,17 @@ module.exports = class AlbumRepository {
    * @param {import('../../song/entity/Song')} song
    */
   async save(album, song) {
-    if (!(album instanceof Album)) {
-      throw new AlbumNotDefinedError();
-    }
-
-    const albumInstance = this.songModel.build(album, {
-      isNewRecord: !album.id,
-    });
-    await albumInstance.save();
-    return fromModelToEntity(albumInstance, song);
+    await this.albumModel.update(
+      {
+        songsNumber: album.songsNumber,
+        cover: album.cover,
+        artist: album.artist,
+        year: album.year,
+      },
+      { where: { id: album.id } },
+    );
+    const updatedAlbum = await this.albumModel.findByPk(album.id);
+    return fromModelToEntity(updatedAlbum, song);
   }
 
   async updateAlbumAttribute(album, songs) {
