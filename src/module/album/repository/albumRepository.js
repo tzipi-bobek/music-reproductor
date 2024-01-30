@@ -69,13 +69,13 @@ module.exports = class AlbumRepository {
    */
   // eslint-disable-next-line class-methods-use-this
   async updateAttribute(album, songs, albumAttribute, songAttribute) {
-    const albumAttributeIsUsed = songs.some(
-      (thisSong) => thisSong[songAttribute] === album[albumAttribute],
-    );
+    const albumAttributeExistsInSongs =
+      songs.some((thisSong) => thisSong[songAttribute] === album[albumAttribute]) &&
+      album[albumAttribute];
 
     const songsWithAttribute = songs.filter((thisSong) => thisSong[songAttribute]);
 
-    if (!albumAttributeIsUsed && songsWithAttribute.length > 0) {
+    if (!albumAttributeExistsInSongs && songsWithAttribute.length > 0) {
       const newAttribute = songsWithAttribute[0][songAttribute];
       // eslint-disable-next-line no-param-reassign
       album[albumAttribute] = newAttribute;
