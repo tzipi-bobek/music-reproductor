@@ -61,8 +61,4 @@ module.exports = class Song {
     this.deletedAt = deletedAt;
     this.album = album;
   }
-
-  get name() {
-    return `${this.title} by ${this.artist}`;
-  }
 };
