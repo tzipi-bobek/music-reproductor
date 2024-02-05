@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const { fromModelToEntity } = require('../mapper/albumMapper');
 const Album = require('../entity/Album');
 const AlbumNotDefinedError = require('../error/AlbumNotDefinedError');
@@ -26,14 +27,13 @@ module.exports = class AlbumRepository {
       include: SongModel,
     });
     await albumInstance.save();
-    return fromModelToEntity(albumInstance, song);
+    return fromModelToEntity(albumInstance);
   }
 
   /**
    * @param {import('../entity/Album')} album
-   * @param {import('../../song/entity/Song')} song
    */
-  async save(album, song) {
+  async save(album) {
     await this.albumModel.update(
       {
         songsNumber: album.songsNumber,
@@ -44,7 +44,7 @@ module.exports = class AlbumRepository {
       { where: { id: album.id } },
     );
     const updatedAlbum = await this.albumModel.findByPk(album.id);
-    return fromModelToEntity(updatedAlbum, song);
+    return fromModelToEntity(updatedAlbum);
   }
 
   async updateAlbumAttribute(album, songs) {
@@ -56,7 +56,7 @@ module.exports = class AlbumRepository {
     const songAttributes = ['cover', 'year', 'albumArtist'];
 
     for (let i = 0; i < 3; i += 1) {
-      // eslint-disable-next-line no-param-reassign, no-await-in-loop
+      // eslint-disable-next-line no-await-in-loop
       album = await this.updateAttribute(album, songs, albumAttributes[i], songAttributes[i]);
     }
 
@@ -77,7 +77,6 @@ module.exports = class AlbumRepository {
 
     if (!albumAttributeExistsInSongs && songsWithAttribute.length > 0) {
       const newAttribute = songsWithAttribute[0][songAttribute];
-      // eslint-disable-next-line no-param-reassign
       album[albumAttribute] = newAttribute;
     }
 
@@ -85,17 +84,53 @@ module.exports = class AlbumRepository {
   }
 
   /**
-   * @param {string} albumTitle
-   * @returns {Promise<import('../entity/Album')>}
+   * @param {import('../entity/Album')} album
+   * @param {import('../../song/entity/Song')} song
    */
-  async getAlbumIfExistByTitle(albumTitle) {
-    const albumInstance = await this.albumModel.findOne({
-      where: { title: albumTitle },
-    });
-    if (albumInstance !== null) {
-      return albumInstance;
+  async getAlbum(song) {
+    const { albumTitle } = song;
+    let album = await this.getAlbumIfExistByTitle(albumTitle);
+    if (!album) {
+      album = await this.create(song);
     }
-    return false;
+    return album;
+  }
+
+  /**
+   * @param {import('../entity/Album')} previousAlbum
+   * @param {import('../../song/entity/Song')} song
+   */
+  async getPreviousAlbum(song) {
+    let previousAlbum;
+    if (song.id) {
+      previousAlbum = await this.getById(song.albumId);
+    }
+    return previousAlbum;
+  }
+
+  /**
+   * @param {import('../entity/Album')} album
+   * @param {import('../entity/Album')} previousAlbum
+   * @param {import('../../song/entity/Song')[]} previousSongs
+   */
+  async updatePreviousAlbum(previousAlbum, album, previousSongs) {
+    if (previousAlbum && previousAlbum.id !== album.id) {
+      if (previousAlbum.songsNumber === 0) {
+        await this.delete(previousAlbum);
+      } else {
+        previousAlbum = await this.updateAlbumAttribute(previousAlbum, previousSongs);
+        await this.save(previousAlbum);
+      }
+    }
+  }
+
+  /**
+   * @param {import('../entity/Album')} album
+   * @param {import('../../song/entity/Song')[]} songs
+   */
+  async updateAlbum(album, songs) {
+    album = await this.updateAlbumAttribute(album, songs);
+    await this.save(album);
   }
 
   async getAll() {
@@ -132,6 +167,20 @@ module.exports = class AlbumRepository {
     }
 
     return fromModelToEntity(albumInstance);
+  }
+
+  /**
+   * @param {string} albumTitle
+   * @returns {Promise<import('../entity/Album')>}
+   */
+  async getAlbumIfExistByTitle(albumTitle) {
+    const albumInstance = await this.albumModel.findOne({
+      where: { title: albumTitle },
+    });
+    if (albumInstance !== null) {
+      return albumInstance;
+    }
+    return false;
   }
 
   /**

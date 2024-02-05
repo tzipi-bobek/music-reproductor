@@ -125,14 +125,9 @@ module.exports = class SongController {
    */
   async save(req, res) {
     const song = fromFormToEntity(req.body);
-    const { albumTitle } = song;
-    let album = await this.albumService.getAlbumIfExistByTitle(albumTitle);
-
-    let previousAlbum;
-    if (song.id) {
-      const previousSong = await this.songService.getById(song.id);
-      previousAlbum = await this.albumService.getById(previousSong.albumId);
-    }
+    const album = await this.albumService.getAlbum(song);
+    const previousSong = await this.songService.getById(song.id);
+    const previousAlbum = await this.albumService.getPreviousAlbum(previousSong);
 
     if (req.files['song-cover']) {
       const coverPath = req.files['song-cover'][0].path.split('public')[1];
@@ -142,30 +137,16 @@ module.exports = class SongController {
       const audioPath = req.files['song-audio'][0].path.split('public')[1];
       song.audioFile = audioPath;
     }
-    if (!album) {
-      album = await this.albumService.create(song);
-    }
 
     song.album = await this.albumService.getById(album.id);
     song.albumId = album.id;
     await this.songService.save(song);
-
-    if (previousAlbum && previousAlbum.id !== album.id) {
-      previousAlbum.songsNumber = await this.songService.getSongsLengthByAlbum(previousAlbum.id);
-      if (previousAlbum.songsNumber === 0) {
-        await this.albumService.delete(previousAlbum);
-      } else {
-        const songs = await this.songService.getSongsByAlbum(previousAlbum.id);
-        previousAlbum = await this.albumService.updateAlbumAttribute(previousAlbum, songs);
-        await this.albumService.save(previousAlbum);
-      }
-    }
-
+    const previousSongs = await this.songService.getSongsByAlbum(previousAlbum.id);
+    previousAlbum.songsNumber = await this.songService.getSongsLengthByAlbum(previousAlbum.id);
+    await this.albumService.updatePreviousAlbum(previousAlbum, album, previousSongs);
     const songs = await this.songService.getSongsByAlbum(album.id);
-    album = await this.albumService.updateAlbumAttribute(album, songs);
     album.songsNumber = await this.songService.getSongsLengthByAlbum(album.id);
-    await this.albumService.save(album, song);
-
+    await this.albumService.updateAlbum(album, songs);
     res.redirect(this.ROUTE_BASE);
   }
 
@@ -177,15 +158,17 @@ module.exports = class SongController {
     const { songId } = req.params;
     const song = await this.songService.getById(songId);
     const { albumId } = song;
-    const album = await this.albumService.getById(albumId);
+    let album = await this.albumService.getById(albumId);
 
-    this.songService.delete(song);
+    await this.songService.delete(song);
 
     album.songsNumber = await this.songService.getSongsLengthByAlbum(album.id);
 
     if (album.songsNumber === 0) {
       await this.albumService.delete(album);
     } else {
+      const songs = await this.songService.getSongsByAlbum(albumId);
+      album = await this.albumService.updateAlbumAttribute(album, songs);
       await this.albumService.save(album);
     }
 

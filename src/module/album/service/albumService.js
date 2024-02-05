@@ -13,8 +13,8 @@ module.exports = class AlbumService {
   /**
    * @param {import('../entity/Album')} album
    */
-  async save(album, song) {
-    return this.albumRepository.save(album, song);
+  async save(album) {
+    return this.albumRepository.save(album);
   }
 
   /**
@@ -30,6 +30,22 @@ module.exports = class AlbumService {
    */
   async updateAlbumAttribute(album, songs) {
     return this.albumRepository.updateAlbumAttribute(album, songs);
+  }
+
+  async getAlbum(song) {
+    return this.albumRepository.getAlbum(song);
+  }
+
+  async getPreviousAlbum(song) {
+    return this.albumRepository.getPreviousAlbum(song);
+  }
+
+  async updatePreviousAlbum(previousAlbum, album, previousSongs) {
+    return this.albumRepository.updatePreviousAlbum(previousAlbum, album, previousSongs);
+  }
+
+  async updateAlbum(album, songs) {
+    return this.albumRepository.updateAlbum(album, songs);
   }
 
   async getAll() {

@@ -83,7 +83,7 @@ function addSongModuleDefinitions(container) {
  */
 function addAlbumModuleDefinitions(container) {
   container.addDefinitions({
-    AlbumController: object(AlbumController).construct(get('AlbumService'), get('Multer')),
+    AlbumController: object(AlbumController).construct(get('AlbumService')),
     AlbumService: object(AlbumService).construct(get('AlbumRepository')),
     AlbumRepository: object(AlbumRepository).construct(get('AlbumModel')),
     AlbumModel: factory(configureAlbumModule),

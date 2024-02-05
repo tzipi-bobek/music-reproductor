@@ -4,9 +4,8 @@ module.exports = class AlbumController {
   /**
    * @param {import('../service/albumService')} albumService
    */
-  constructor(albumService, uploadMiddleware) {
+  constructor(albumService) {
     this.albumService = albumService;
-    this.uploadMiddleware = uploadMiddleware;
     this.ROUTE_BASE = '/album';
     this.ALBUM_VIEWS = 'album/views';
   }
