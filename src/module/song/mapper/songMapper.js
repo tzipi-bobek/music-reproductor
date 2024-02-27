@@ -19,7 +19,6 @@ exports.fromModelToEntity = (
     albumId,
     createdAt = null,
     updatedAt = null,
-    deletedAt = null,
     Album,
   },
   fromAlbumModelToEntityMapper,
@@ -42,7 +41,6 @@ exports.fromModelToEntity = (
     albumId,
     createdAt,
     updatedAt,
-    deletedAt,
     Album ? fromAlbumModelToEntityMapper(Album) : {},
   );
 

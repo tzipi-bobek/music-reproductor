@@ -67,6 +67,7 @@ class SongModel extends Model {
         sequelize: sequelizeInstance,
         modelName: 'Song',
         tableName: 'songs',
+        underscored: true,
         timestamps: true,
       },
     );

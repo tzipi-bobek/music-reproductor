@@ -37,6 +37,7 @@ class AlbumModel extends Model {
         sequelize: sequelizeInstance,
         modelName: 'Album',
         tableName: 'albums',
+        underscored: true,
         timestamps: true,
       },
     );

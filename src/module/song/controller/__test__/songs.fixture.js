@@ -19,7 +19,6 @@ module.exports = function createTestSong(id, album = null) {
     1,
     undefined,
     undefined,
-    undefined,
     album,
   );
 };

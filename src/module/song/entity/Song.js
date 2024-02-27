@@ -17,7 +17,6 @@ module.exports = class Song {
    * @param {number} albumId
    * @param {string} createdAt
    * @param {string} updatedAt
-   * @param {string} deletedAt
    * @param {import('../../album/entity/Album')} album
    */
   constructor(
@@ -38,7 +37,6 @@ module.exports = class Song {
     albumId,
     createdAt,
     updatedAt,
-    deletedAt,
     album,
   ) {
     this.id = id;
@@ -58,7 +56,6 @@ module.exports = class Song {
     this.albumId = albumId;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
-    this.deletedAt = deletedAt;
     this.album = album;
   }
 };
