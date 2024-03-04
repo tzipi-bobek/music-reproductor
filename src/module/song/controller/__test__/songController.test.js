@@ -26,7 +26,7 @@ beforeEach(() => {
     getAll: jest.fn(() => [createTestAlbum(1)]),
     getById: jest.fn(() => createTestAlbum(1)),
     getAlbum: jest.fn(() => createTestAlbum(1)),
-    getPreviousAlbum: jest.fn(() => createTestAlbum(1)),
+    getPreviousAlbum: jest.fn(() => createTestAlbum(2)),
     updatePreviousAlbum: jest.fn(() => undefined),
     updateAlbum: jest.fn(() => undefined),
     updateAlbumAttribute: jest.fn(() => undefined),
@@ -173,6 +173,37 @@ describe('SongController methods', () => {
     });
   });
 
+  test('save saves a new song and redirects to the song list', async () => {
+    const reqSaveMock = {
+      body: {
+        title: 'Daylight',
+        'album-title': 'Lover',
+        artist: 'Taylor Swift',
+        'album-artist': 'Taylor Swift',
+        compositor: 'Taylor Swift',
+        genre: 'Pop',
+        lyrics: '',
+        lyricist: 'Taylor Swift',
+        'track-number': '3',
+        year: '2019',
+        comment: '',
+      },
+      files: {
+        'song-audio': [{ path: '/public/uploads/song-audio-1704849107017.mp3' }],
+        'song-cover': [{ path: '/public/img/no-cover-available.jpg' }],
+      },
+    };
+
+    const expectedSong = createTestSong(undefined, await albumServiceMock.getById(1));
+
+    await songController.save(reqSaveMock, resMock);
+    expect(songServiceMock.save).toHaveBeenCalledTimes(1);
+    expect(songServiceMock.save).toHaveBeenCalledWith(expectedSong);
+    expect(albumServiceMock.getPreviousAlbum).toHaveBeenCalledTimes(0);
+    expect(resMock.redirect).toHaveBeenCalledTimes(1);
+    expect(resMock.redirect).toHaveBeenCalledWith(songController.ROUTE_BASE);
+  });
+
   test('save saves a song and redirects to the song list', async () => {
     const reqSaveMock = {
       body: {
@@ -195,11 +226,12 @@ describe('SongController methods', () => {
       },
     };
 
-    const expectedSong = createTestSong(1, await albumServiceMock.getById(1));
-
     await songController.save(reqSaveMock, resMock);
     expect(songServiceMock.save).toHaveBeenCalledTimes(1);
-    expect(songServiceMock.save).toHaveBeenCalledWith(expectedSong);
+    expect(songServiceMock.getById).toHaveBeenCalled();
+    expect(albumServiceMock.getPreviousAlbum).toHaveBeenCalled();
+    expect(songServiceMock.getSongsByAlbum).toHaveBeenCalledTimes(2);
+    expect(songServiceMock.getSongsLengthByAlbum).toHaveBeenCalledTimes(2);
     expect(resMock.redirect).toHaveBeenCalledTimes(1);
     expect(resMock.redirect).toHaveBeenCalledWith(songController.ROUTE_BASE);
   });

@@ -126,8 +126,12 @@ module.exports = class SongController {
   async save(req, res) {
     const song = fromFormToEntity(req.body);
     const album = await this.albumService.getAlbum(song);
-    const previousSong = await this.songService.getById(song.id);
-    const previousAlbum = await this.albumService.getPreviousAlbum(previousSong);
+    let previousSong;
+    let previousAlbum;
+    if (song.id) {
+      previousSong = await this.songService.getById(song.id);
+      previousAlbum = await this.albumService.getPreviousAlbum(previousSong);
+    }
 
     if (req.files['song-cover']) {
       const coverPath = req.files['song-cover'][0].path.split('public')[1];
@@ -141,9 +145,13 @@ module.exports = class SongController {
     song.album = await this.albumService.getById(album.id);
     song.albumId = album.id;
     await this.songService.save(song);
-    const previousSongs = await this.songService.getSongsByAlbum(previousAlbum.id);
-    previousAlbum.songsNumber = await this.songService.getSongsLengthByAlbum(previousAlbum.id);
-    await this.albumService.updatePreviousAlbum(previousAlbum, album, previousSongs);
+
+    if (previousAlbum) {
+      const previousSongs = await this.songService.getSongsByAlbum(previousAlbum.id);
+      previousAlbum.songsNumber = await this.songService.getSongsLengthByAlbum(previousAlbum.id);
+      await this.albumService.updatePreviousAlbum(previousAlbum, album, previousSongs);
+    }
+
     const songs = await this.songService.getSongsByAlbum(album.id);
     album.songsNumber = await this.songService.getSongsLengthByAlbum(album.id);
     await this.albumService.updateAlbum(album, songs);
